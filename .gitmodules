@@ -1,0 +1,3 @@
+[submodule "GameDevStack"]
+	path = GameDevStack
+	url = https://github.com/Zboubi21/GameDevStack.git
