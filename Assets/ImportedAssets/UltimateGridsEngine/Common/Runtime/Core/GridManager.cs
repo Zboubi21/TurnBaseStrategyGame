@@ -559,7 +559,7 @@ public class GridManager : MonoBehaviour
 
         // Check if the tile is walkable
         var tileAtPosition = GetGridTileAtPosition(gridPosition);
-        if (checkTileAtPosition.HasValue && checkTileAtPosition.Value && !tileAtPosition.m_IsTileWalkable || !tileAtPosition.m_IsTileFlyable)
+        if (checkTileAtPosition.HasValue && checkTileAtPosition.Value && !tileAtPosition.m_IsTileWalkable && !tileAtPosition.m_IsTileFlyable)
             return null;
 
         GridObject instantiatedGridObject = null;
