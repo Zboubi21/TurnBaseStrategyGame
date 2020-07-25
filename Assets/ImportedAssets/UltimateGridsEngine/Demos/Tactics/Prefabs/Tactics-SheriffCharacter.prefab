@@ -331,6 +331,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.4292453, g: 1, b: 0.45989466, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -404,6 +405,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.09433961, g: 0.09433961, b: 0.09433961, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -553,7 +555,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d93a95a66d80ffe4a9b3b00686bb0d05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_GridPosition: {x: 2147483647, y: 2147483647}
+  m_GridPosition: {x: 7, y: 0}
   m_CurrentGridTile: {fileID: 0}
   m_PreviousGridTile: {fileID: 0}
   m_InitialOrientation: 0
@@ -784,6 +786,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: def0327dcdd46a3429410a784c38b7a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_CanFly: 1
   m_FollowPath: 0
   m_DeactivateOnReachDestination: 1
   m_AnimateMovement: 1
@@ -805,6 +808,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_CurrentState: 0
   m_MovesPerTurn: 1
+  m_CanFly: 1
   m_MovementRangeParameters:
     m_RangeSearchType: 1
     m_SquareRange: 0

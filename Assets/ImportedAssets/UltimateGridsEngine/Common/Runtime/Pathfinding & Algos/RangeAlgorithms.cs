@@ -4,13 +4,13 @@ using UnityEngine;
 
 public static class RangeAlgorithms
 {
-    public static List<GridTile> SearchByParameters(GridTile start, RangeParameters rangeParameters)
+    public static List<GridTile> SearchByParameters(GridTile start, RangeParameters rangeParameters, bool canFly = false)
     {
         switch (rangeParameters.m_RangeSearchType)
         {
             case RangeSearchType.RectangleByGridPosition:
             default:
-                return RangeAlgorithms.SearchByGridPosition(start, rangeParameters.m_MaxReach, rangeParameters.m_WalkableTilesOnly, rangeParameters.m_UnOccupiedTilesOnly, rangeParameters.m_SquareRange, rangeParameters.m_IgnoreTilesHeight, rangeParameters.m_IncludeStartingTile, rangeParameters.m_MinimunReach);
+                return RangeAlgorithms.SearchByGridPosition(start, rangeParameters.m_MaxReach, rangeParameters.m_WalkableTilesOnly, rangeParameters.m_UnOccupiedTilesOnly, rangeParameters.m_SquareRange, rangeParameters.m_IgnoreTilesHeight, rangeParameters.m_IncludeStartingTile, rangeParameters.m_MinimunReach, canFly);
             case RangeSearchType.RectangleByMovement:
                 return RangeAlgorithms.SearchByMovement(start, rangeParameters.m_MaxReach, rangeParameters.m_IgnoreTilesHeight, rangeParameters.m_IncludeStartingTile, rangeParameters.m_MinimunReach);
             case RangeSearchType.HexagonByGridPosition:
@@ -20,7 +20,7 @@ public static class RangeAlgorithms
         }
     }
 
-    public static List<GridTile> SearchByGridPosition(GridTile start, int maxReach, bool WalkableTilesOnly = true, bool unoccupiedTilesOnly = true, bool square = true, bool ignoreHeight = false, bool includeStartingTile = false, int MinReach = 1)
+    public static List<GridTile> SearchByGridPosition(GridTile start, int maxReach, bool WalkableTilesOnly = true, bool unoccupiedTilesOnly = true, bool square = true, bool ignoreHeight = false, bool includeStartingTile = false, int MinReach = 1, bool canFly = false)
     {
         List<GridTile> range = new List<GridTile>();
 
@@ -46,7 +46,7 @@ public static class RangeAlgorithms
             current = frontier.Dequeue();
             if (cost_so_far[current] <= maxReach)
             {
-                var neighbors = WalkableTilesOnly == true ? GridManager.Instance.WalkableNeighbors(current, ignoreHeight, unoccupiedTilesOnly, null, GridManager.defaultRectangle8Directions) : GridManager.Instance.Neighbors(current, ignoreHeight, GridManager.defaultRectangle8Directions);
+                var neighbors = WalkableTilesOnly == true ? GridManager.Instance.WalkableNeighbors(current, ignoreHeight, unoccupiedTilesOnly, null, canFly, GridManager.defaultRectangle8Directions) : GridManager.Instance.Neighbors(current, ignoreHeight, GridManager.defaultRectangle8Directions);
                 foreach (GridTile next in neighbors)
                 {
                     float new_cost = cost_so_far[current] + (square == true ? 1 : Utilities.Heuristic(current, next));

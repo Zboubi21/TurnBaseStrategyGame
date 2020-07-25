@@ -6556,10 +6556,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1559581102, guid: 0b58718e93b3f4a49a56f6fbdd425d29, type: 3}
-      propertyPath: _invincibilityTimer.DefaultDuration
-      value: 0.05
-      objectReference: {fileID: 0}
     - target: {fileID: 7418453948232682661, guid: 0b58718e93b3f4a49a56f6fbdd425d29,
         type: 3}
       propertyPath: m_Name
@@ -12597,10 +12593,6 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 61438080, guid: 6ff886ce996cc824d85267f568602804, type: 3}
-      propertyPath: m_BlockingMask.m_Bits
-      value: 823
-      objectReference: {fileID: 0}
     - target: {fileID: 1376521103, guid: 6ff886ce996cc824d85267f568602804, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -12608,10 +12600,6 @@ PrefabInstance:
     - target: {fileID: 1376521103, guid: 6ff886ce996cc824d85267f568602804, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1559581102, guid: 6ff886ce996cc824d85267f568602804, type: 3}
-      propertyPath: _invincibilityTimer.DefaultDuration
-      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 7418453948232682661, guid: 6ff886ce996cc824d85267f568602804,
         type: 3}

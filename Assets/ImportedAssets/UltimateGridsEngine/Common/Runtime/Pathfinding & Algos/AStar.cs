@@ -7,7 +7,7 @@ public static class AStar
     /// <summary>
     /// Returns the best path as a List of Nodes
     /// </summary>
-    public static List<GridTile> Search(GridTile start, GridTile goal)
+    public static List<GridTile> Search(GridTile start, GridTile goal, bool canFly = false)
     {
         // Start is goal
         if (start == goal)
@@ -32,7 +32,8 @@ public static class AStar
             current = frontier.Dequeue();
             if (current == goal) break; // Early exit
 
-            foreach (GridTile next in GridManager.Instance.WalkableNeighbors(current, false, false, goal))
+            // foreach (GridTile next in GridManager.Instance.WalkableNeighbors(current, false, false, goal))
+            foreach (GridTile next in GridManager.Instance.WalkableNeighbors(current, false, true, goal, canFly))
             {
                 float new_cost = cost_so_far[current] + next.Cost();
                 if (!cost_so_far.ContainsKey(next) || new_cost < cost_so_far[next])

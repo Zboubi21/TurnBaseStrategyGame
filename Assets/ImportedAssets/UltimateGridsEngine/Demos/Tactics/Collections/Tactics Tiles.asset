@@ -23,4 +23,9 @@ MonoBehaviour:
     m_Height: 0
     m_Offset: {x: 0, y: 0.5, z: 0}
     m_Rotation: {x: 0, y: 0, z: 0}
+  - m_GridTile: {fileID: 3148342632698221429, guid: 9034e67ee23a55b46bff12e10a1431bd,
+      type: 3}
+    m_Height: 0
+    m_Offset: {x: 0, y: 0, z: 0}
+    m_Rotation: {x: 0, y: 0, z: 0}
   m_SelectedGridTileBrushIndex: 0

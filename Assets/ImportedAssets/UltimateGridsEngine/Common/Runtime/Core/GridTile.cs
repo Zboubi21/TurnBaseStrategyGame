@@ -22,6 +22,7 @@ public class GridTile : MonoBehaviour
     public int m_TileHeight = 0; 		// Height of this tile
     public Vector3 m_WorldPosition { get { return transform.position; } } // The Transforms scene position
     public bool m_IsTileWalkable = true; // Wether or not dynamic GridObjects will be able to move to the tile by default
+    public bool m_IsTileFlyable = false; // Wether or not dynamic GridObjects will be able to move to this specific tile by default
     [Header("Agents Pivot Offset")]
     public Vector3 m_GridObjectsPivotOffset = new Vector3(0, 0.5f, 0);
 
@@ -86,7 +87,7 @@ public class GridTile : MonoBehaviour
     // Checks if a GridObject is able to move to the tile
     public virtual bool CanMoveToTile()
     {
-        return (m_IsTileWalkable && !IsTileOccupied());
+        return (m_IsTileWalkable || m_IsTileFlyable && !IsTileOccupied());
     }
 
     // Checks if any of the occupying GridObjects block movement

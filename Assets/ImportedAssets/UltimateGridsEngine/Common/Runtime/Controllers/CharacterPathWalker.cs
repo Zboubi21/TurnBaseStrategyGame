@@ -10,6 +10,7 @@ public class CharacterPathWalker : MonoBehaviour
 {
 
     [Header("Settings")]
+    public bool m_CanFly = false;
     public bool m_FollowPath = false;
     public bool m_DeactivateOnReachDestination = true;
 
@@ -160,7 +161,7 @@ public class CharacterPathWalker : MonoBehaviour
     {
         m_NextPathIndex = -1;
 
-        var newPath = AStar.Search(_gridObject.m_CurrentGridTile, targetGridTile);
+        var newPath = AStar.Search(_gridObject.m_CurrentGridTile, targetGridTile, m_CanFly);
         if (newPath != null && newPath.Count > 0 && newPath.Contains(targetGridTile))
         {
             SetPath(newPath, andMove, onReachedDestination);
