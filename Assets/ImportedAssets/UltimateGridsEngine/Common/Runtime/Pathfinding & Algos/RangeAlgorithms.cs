@@ -10,13 +10,13 @@ public static class RangeAlgorithms
         {
             case RangeSearchType.RectangleByGridPosition:
             default:
-                return RangeAlgorithms.SearchByGridPosition(start, rangeParameters.m_MaxReach, rangeParameters.m_WalkableTilesOnly, rangeParameters.m_UnOccupiedTilesOnly, rangeParameters.m_SquareRange, rangeParameters.m_IgnoreTilesHeight, rangeParameters.m_IncludeStartingTile, rangeParameters.m_MinimunReach, canFly);
+                return RangeAlgorithms.SearchByGridPosition(start, rangeParameters.m_MaxReach, rangeParameters.m_WalkableTilesOnly, rangeParameters.m_UnOccupiedTilesOnly, rangeParameters.m_SquareRange, rangeParameters.m_IgnoreTilesHeight, rangeParameters.m_IncludeStartingTile, rangeParameters.m_MinReach, canFly);
             case RangeSearchType.RectangleByMovement:
-                return RangeAlgorithms.SearchByMovement(start, rangeParameters.m_MaxReach, rangeParameters.m_IgnoreTilesHeight, rangeParameters.m_IncludeStartingTile, rangeParameters.m_MinimunReach);
+                return RangeAlgorithms.SearchByMovement(start, rangeParameters.m_MaxReach, rangeParameters.m_IgnoreTilesHeight, rangeParameters.m_IncludeStartingTile, rangeParameters.m_MinReach);
             case RangeSearchType.HexagonByGridPosition:
-                return RangeAlgorithms.HexagonSearchByGridPosition(start, rangeParameters.m_MaxReach, rangeParameters.m_WalkableTilesOnly, rangeParameters.m_UnOccupiedTilesOnly, rangeParameters.m_IgnoreTilesHeight, rangeParameters.m_IncludeStartingTile, rangeParameters.m_MinimunReach);
+                return RangeAlgorithms.HexagonSearchByGridPosition(start, rangeParameters.m_MaxReach, rangeParameters.m_WalkableTilesOnly, rangeParameters.m_UnOccupiedTilesOnly, rangeParameters.m_IgnoreTilesHeight, rangeParameters.m_IncludeStartingTile, rangeParameters.m_MinReach);
             case RangeSearchType.HexagonByMovement:
-                return RangeAlgorithms.HexagonSearchByMovement(start, rangeParameters.m_MaxReach, rangeParameters.m_IgnoreTilesHeight, rangeParameters.m_IncludeStartingTile, rangeParameters.m_MinimunReach);
+                return RangeAlgorithms.HexagonSearchByMovement(start, rangeParameters.m_MaxReach, rangeParameters.m_IgnoreTilesHeight, rangeParameters.m_IncludeStartingTile, rangeParameters.m_MinReach);
         }
     }
 
