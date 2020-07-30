@@ -367,7 +367,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_MovementRangeParameters:
-    m_RangeSearchType: 0
+    m_RangeSearchType: 1
     m_SquareRange: 0
     m_MinReach: 0
     m_MaxReach: 3
@@ -375,6 +375,15 @@ MonoBehaviour:
     m_UnOccupiedTilesOnly: 1
     m_IgnoreTilesHeight: 0
     m_IncludeStartingTile: 0
+  m_AttackRangeParameters:
+    m_RangeSearchType: 0
+    m_SquareRange: 0
+    m_MinReach: 2
+    m_MaxReach: 3
+    m_WalkableTilesOnly: 1
+    m_UnOccupiedTilesOnly: 0
+    m_IgnoreTilesHeight: 1
+    m_IncludeStartingTile: 1
 --- !u!114 &7018155880319914982
 MonoBehaviour:
   m_ObjectHideFlags: 0

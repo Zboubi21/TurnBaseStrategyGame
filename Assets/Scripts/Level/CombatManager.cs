@@ -6,7 +6,7 @@ namespace TBSG.Combat
     public class CombatManager : SingletonMonoBehaviour<CombatManager>
     {
         [Header("Player")]
-        public Character m_Player;
+        public CharacterController m_CharacterController;
 
         protected virtual void Start()
         {
@@ -21,7 +21,7 @@ namespace TBSG.Combat
 
         private void ResetPlayersUnits()
         {
-            m_Player.NewTurn();
+            m_CharacterController.NewTurn();
         }
     }
 }
