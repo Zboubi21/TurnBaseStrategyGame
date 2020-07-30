@@ -301,8 +301,8 @@ GameObject:
   m_Component:
   - component: {fileID: 21954857}
   - component: {fileID: 21954860}
-  - component: {fileID: 21954859}
   - component: {fileID: 21954858}
+  - component: {fileID: 21954859}
   m_Layer: 5
   m_Name: FpsCounter
   m_TagString: Untagged
@@ -10336,9 +10336,10 @@ GameObject:
   m_Component:
   - component: {fileID: 2044439303}
   - component: {fileID: 2044439305}
+  - component: {fileID: 2044439306}
   - component: {fileID: 2044439304}
   m_Layer: 5
-  m_Name: GameVersion
+  m_Name: VersionVisualizer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10482,6 +10483,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2044439302}
   m_CullTransparentMesh: 0
+--- !u!114 &2044439306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2044439302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b1709276e724674dbdd5d0dc001419f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2048477274
 GameObject:
   m_ObjectHideFlags: 0
