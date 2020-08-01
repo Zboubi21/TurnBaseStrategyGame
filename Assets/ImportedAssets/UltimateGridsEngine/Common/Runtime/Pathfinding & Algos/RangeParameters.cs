@@ -8,6 +8,18 @@ public enum RangeSearchType { RectangleByGridPosition, RectangleByMovement, Hexa
 [Serializable]
 public class RangeParameters
 {
+    public RangeParameters(RangeParameters param)
+    {
+        m_RangeSearchType = param.m_RangeSearchType;
+        m_SquareRange = param.m_SquareRange;
+        m_MinReach = param.m_MinReach;
+        m_MaxReach = param.m_MaxReach;
+        m_WalkableTilesOnly = param.m_WalkableTilesOnly;
+        m_UnOccupiedTilesOnly = param.m_UnOccupiedTilesOnly;
+        m_IgnoreTilesHeight = param.m_IgnoreTilesHeight;
+        m_IncludeStartingTile = param.m_IncludeStartingTile;
+    }
+
     [Header("Type")]
     public RangeSearchType m_RangeSearchType = RangeSearchType.RectangleByGridPosition;
     [ShowIf("SearchTypeIsRectByGridPosition")]
@@ -15,8 +27,8 @@ public class RangeParameters
     public bool SearchTypeIsRectByGridPosition() { return m_RangeSearchType == RangeSearchType.RectangleByGridPosition; }
 
     [Header("Reach")]
+    public int m_MinReach = 0;
     public int m_MaxReach = 3;
-    public int m_MinimunReach = 0;
 
     [Header("Tile Settings")]
     public bool m_WalkableTilesOnly = true;

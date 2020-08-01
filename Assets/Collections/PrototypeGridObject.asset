@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac80e55dceaae364f8613f49f8ba2d27, type: 3}
+  m_Name: PrototypeGridObject
+  m_EditorClassIdentifier: 
+  _gridObjectBrushes:
+  - m_GridObject: {fileID: 6277814793169736005, guid: e56f6339a0e1c5c4da8489218cf3bf0a,
+      type: 3}
+    m_InitialOrientation: 0
+  - m_GridObject: {fileID: 8996517672632076000, guid: b284c6260f54d4743906a8eb99d5f45e,
+      type: 3}
+    m_InitialOrientation: 0
+  - m_GridObject: {fileID: 7444567808573518757, guid: e5dd9e0b6895eb64480612b95885c652,
+      type: 3}
+    m_InitialOrientation: 0
+  m_SelectedGridObjectBrushIndex: -1

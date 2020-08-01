@@ -364,7 +364,7 @@ public class GridManager : MonoBehaviour
     }
 
     // Returns a list with the neighbors of the tile
-    public virtual List<GridTile> WalkableNeighbors(GridTile gridTile, bool ignoresHeight = false, bool unoccupiedTilesOnly = true, GridTile goalTile = null, List<Vector2Int> customDirections = null)
+    public virtual List<GridTile> WalkableNeighbors(GridTile gridTile, bool ignoresHeight = false, bool unoccupiedTilesOnly = true, GridTile goalTile = null, bool canFly = false, List<Vector2Int> customDirections = null)
     {
         List<GridTile> results = new List<GridTile>();
         var directions = customDirections != null ? customDirections : GetNeighborPositions((gridTile.m_GridPosition.y & 1) == 1);
@@ -377,6 +377,13 @@ public class GridManager : MonoBehaviour
                 GridTile targetTile = GetGridTileAtPosition(newVector);
                 if (targetTile != null)
                 {
+                    if (targetTile.m_IsTileFlyable)
+                    {
+                        if (canFly)
+                            results.Add(targetTile);
+                        continue;
+                    }
+
                     if (targetTile.m_IsTileWalkable || (goalTile != null && targetTile == goalTile))
                     {
                         if (unoccupiedTilesOnly && targetTile.IsTileOccupied() && (goalTile == null || (goalTile != null && targetTile != goalTile)))
@@ -552,7 +559,7 @@ public class GridManager : MonoBehaviour
 
         // Check if the tile is walkable
         var tileAtPosition = GetGridTileAtPosition(gridPosition);
-        if (checkTileAtPosition.HasValue && checkTileAtPosition.Value && !tileAtPosition.m_IsTileWalkable)
+        if (checkTileAtPosition.HasValue && checkTileAtPosition.Value && !tileAtPosition.m_IsTileWalkable && !tileAtPosition.m_IsTileFlyable)
             return null;
 
         GridObject instantiatedGridObject = null;
