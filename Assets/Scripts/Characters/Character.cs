@@ -6,11 +6,11 @@ namespace TBSG.Combat
 {
     [RequireComponent(typeof(CharacterPathWalker))]
     [RequireComponent(typeof(GridObject))]
+    [RequireComponent(typeof(GridMovement))]
     public class Character : MonoBehaviour
     {
         [Header("Movement")]
-        [SerializeField] private RangeParameters m_MovementRangeParameters;
-        [SerializeField] private RangeParameters m_AttackRangeParameters;
+        [SerializeField] private RangeParameters m_MovementRangeParameters = null;
 
         private List<GridTile> m_CurrentMovementRange = new List<GridTile>();
         private List<GridTile> m_CurrentAttackRange = new List<GridTile>();
@@ -19,7 +19,7 @@ namespace TBSG.Combat
         private GridMovement m_GridMovement;
         private int m_CurrentMouvementPoint;
 
-        private void Awake()
+        private void Start()
         {
             m_GridObject = GetComponent<GridObject>();
             m_PathWalker = GetComponent<CharacterPathWalker>();
@@ -35,9 +35,9 @@ namespace TBSG.Combat
             if (andHighlight)
                 HighlightMovementRange(true);
         }
-        public void CalculateAttackRange(bool andHighlight = false)
+        public void CalculateAttackRange(RangeParameters attackParam, bool andHighlight = false)
         {
-            m_CurrentAttackRange = RangeAlgorithms.SearchByParameters(m_GridObject.m_CurrentGridTile, m_AttackRangeParameters);
+            m_CurrentAttackRange = RangeAlgorithms.SearchByParameters(m_GridObject.m_CurrentGridTile, attackParam);
             if (andHighlight)
                 HighlightAttackRange(true);
         }
@@ -53,7 +53,6 @@ namespace TBSG.Combat
                 HighlightManager.Instance.HighlighTiles(m_CurrentAttackRange, 1, unhighlightPrevious);
         }
 
-        // Wether or not this unit is able to move to a target tile (based on wether or not it is inside the range)
         public bool CanMoveToTile(GridTile targetTile)
         {
             return (m_CurrentMovementRange.Contains(targetTile) && targetTile != m_GridObject.m_CurrentGridTile);
@@ -61,6 +60,10 @@ namespace TBSG.Combat
         public bool CanAttackTile(GridTile targetTile)
         {
             return (m_CurrentAttackRange.Contains(targetTile));
+        }
+        public bool CanSpawnObjectOnTile(GridTile gridTile)
+        {
+            return GridManager.Instance.GetGridObjectAtPosition(gridTile.m_GridPosition) == null && !gridTile.m_IsTileFlyable;
         }
 
         public void MoveToTile(GridTile targetTile, Action onMovementEndCallback)

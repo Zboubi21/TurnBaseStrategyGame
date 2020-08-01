@@ -4414,7 +4414,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f1787814675b4d42baab785983a84ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SpellButton: {fileID: 1761759154}
+  m_SpellOne:
+    m_Spell: 1
+    m_Button: {fileID: 1761759154}
 --- !u!1 &858419550
 GameObject:
   m_ObjectHideFlags: 0
@@ -10708,7 +10710,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b63c8d9b84941044dbdad555e831fbb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_CharacterCanvas: {fileID: 854394319}
 --- !u!1001 &2093352437
 PrefabInstance:
   m_ObjectHideFlags: 0

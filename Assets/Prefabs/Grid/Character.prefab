@@ -375,15 +375,6 @@ MonoBehaviour:
     m_UnOccupiedTilesOnly: 1
     m_IgnoreTilesHeight: 0
     m_IncludeStartingTile: 0
-  m_AttackRangeParameters:
-    m_RangeSearchType: 0
-    m_SquareRange: 0
-    m_MinReach: 2
-    m_MaxReach: 3
-    m_WalkableTilesOnly: 1
-    m_UnOccupiedTilesOnly: 0
-    m_IgnoreTilesHeight: 1
-    m_IncludeStartingTile: 1
 --- !u!114 &7018155880319914982
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -398,6 +389,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_MountainPrefab: {fileID: 3063526555832202331, guid: 7a83e2ada53857a4296fafa166ee4d52,
     type: 3}
+  m_Attacks:
+  - {fileID: 11400000, guid: ffc1b0bf6710d354bbfd831980bf110f, type: 2}
 --- !u!1 &8996517672737063456
 GameObject:
   m_ObjectHideFlags: 0
