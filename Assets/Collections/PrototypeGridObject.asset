@@ -19,4 +19,7 @@ MonoBehaviour:
   - m_GridObject: {fileID: 8996517672632076000, guid: b284c6260f54d4743906a8eb99d5f45e,
       type: 3}
     m_InitialOrientation: 0
+  - m_GridObject: {fileID: 7444567808573518757, guid: e5dd9e0b6895eb64480612b95885c652,
+      type: 3}
+    m_InitialOrientation: 0
   m_SelectedGridObjectBrushIndex: -1

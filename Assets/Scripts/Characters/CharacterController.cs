@@ -55,38 +55,51 @@ namespace TBSG.Combat
 
         private void SetCurrentPlayerSpell(SpellsEnum spellEnum)
         {
-            SpellParameters spellParam = GetSpellWithEnum(spellEnum);
-            m_CurrentSpell = spellParam;
-            m_Character.CalculateAttackRange(spellParam.m_Range, true);
+            SpellParameters spell = GetSpellWithEnum(spellEnum);
+            if (!m_Character.HasEnoughActionPoints(spell)) return;
+            m_CurrentSpell = spell;
+            m_Character.CalculateAttackRange(spell.m_Range, true);
             m_InMovementState = false;
         }
 
-        private void LaunchSpell(SpellParameters param, GridTile gridTile)
+        private void LaunchSpell(SpellParameters spell, GridTile gridTile)
         {
             if (!m_Character.CanAttackTile(GridManager.Instance.m_HoveredGridTile)) return;
 
-            if (param.m_ObjectToSpawn)
+            if (spell.m_ObjectToSpawn)
             {
-                SpawnObjectOnTile(param.m_ObjectToSpawn, gridTile);
+                SpawnObjectOnTile(spell, spell.m_ObjectToSpawn, gridTile);
             }
             else
             {
-
+                GridObject gridObject = GridManager.Instance.GetGridObjectAtPosition(gridTile.m_GridPosition);
+                if (gridObject && gridObject.TryGetComponent(out Entity entity))
+                    entity.TakeDamage(spell.m_Damages);
+                OnLaunchedSpell(spell);
             }
         }
 
-        private void SpawnObjectOnTile(GameObject obj, GridTile gridTile)
+        private void SpawnObjectOnTile(SpellParameters spell, GameObject obj, GridTile gridTile)
         {
-            if (m_Character.CanSpawnObjectOnTile(gridTile))
+            if (!gridTile.m_IsTileFlyable)
             {
-                GridObject gridObject = obj.GetComponent<GridObject>();
-                GridManager.Instance.InstantiateGridObject(gridObject, gridTile.m_GridPosition);
-                OnLaunchedSpell();
+                GridObject targetPosGridObject = GridManager.Instance.GetGridObjectAtPosition(gridTile.m_GridPosition);
+                if (!targetPosGridObject)
+                {
+                    GridObject gridObject = obj.GetComponent<GridObject>();
+                    GridManager.Instance.InstantiateGridObject(gridObject, gridTile.m_GridPosition);
+                }
+                else
+                {
+                    GridObject instantiatedGridObject = Instantiate(obj, targetPosGridObject.transform.position, Quaternion.identity).GetComponent<GridObject>();
+                }
+                OnLaunchedSpell(spell);
             }
         }
 
-        private void OnLaunchedSpell()
+        private void OnLaunchedSpell(SpellParameters spell)
         {
+            m_Character.SpendActionPoints(spell.m_ActionPoints);
             m_InMovementState = true;
             m_Character.ClearAttackRange();
             m_Character.CalculateMovementRange(true);

@@ -5,7 +5,6 @@ namespace TBSG.Combat
     [CreateAssetMenu(fileName = "New Spell", menuName = "Data/Combat/Spell")]
     public class SpellParameters : ScriptableObject
     {
-        // public string m_Name = "";
         public SpellsEnum m_Spell = 0;
         public int m_ActionPoints = 1;
         public int m_Damages = 1;

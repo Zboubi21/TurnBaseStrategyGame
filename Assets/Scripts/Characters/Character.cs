@@ -7,9 +7,9 @@ namespace TBSG.Combat
     [RequireComponent(typeof(CharacterPathWalker))]
     [RequireComponent(typeof(GridObject))]
     [RequireComponent(typeof(GridMovement))]
-    public class Character : MonoBehaviour
+    public class Character : Entity
     {
-        [Header("Movement")]
+        [SerializeField] private int m_StartActionPoints = 6;
         [SerializeField] private RangeParameters m_MovementRangeParameters = null;
 
         private List<GridTile> m_CurrentMovementRange = new List<GridTile>();
@@ -17,10 +17,11 @@ namespace TBSG.Combat
         private CharacterPathWalker m_PathWalker;
         private GridObject m_GridObject;
         private GridMovement m_GridMovement;
-        private int m_CurrentMouvementPoint;
+        [NaughtyAttributes.ReadOnly, SerializeField] private int m_CurrentActionPoints, m_CurrentMouvementPoints;
 
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
             m_GridObject = GetComponent<GridObject>();
             m_PathWalker = GetComponent<CharacterPathWalker>();
             m_GridMovement = GetComponent<GridMovement>();
@@ -28,9 +29,9 @@ namespace TBSG.Combat
 
         public void CalculateMovementRange(bool andHighlight = false)
         {
-            if (m_CurrentMouvementPoint <= 0) return;
+            if (m_CurrentMouvementPoints <= 0) return;
             RangeParameters rangeParam = new RangeParameters(m_MovementRangeParameters);
-            rangeParam.m_MaxReach = m_CurrentMouvementPoint;
+            rangeParam.m_MaxReach = m_CurrentMouvementPoints;
             m_CurrentMovementRange = RangeAlgorithms.SearchByParameters(m_GridObject.m_CurrentGridTile, rangeParam, m_PathWalker.m_CanFly);
             if (andHighlight)
                 HighlightMovementRange(true);
@@ -57,20 +58,24 @@ namespace TBSG.Combat
         {
             return (m_CurrentMovementRange.Contains(targetTile) && targetTile != m_GridObject.m_CurrentGridTile);
         }
+        public bool HasEnoughActionPoints(SpellParameters spell)
+        {
+            return m_CurrentActionPoints >= spell.m_ActionPoints;
+        }
         public bool CanAttackTile(GridTile targetTile)
         {
             return (m_CurrentAttackRange.Contains(targetTile));
-        }
-        public bool CanSpawnObjectOnTile(GridTile gridTile)
-        {
-            return GridManager.Instance.GetGridObjectAtPosition(gridTile.m_GridPosition) == null && !gridTile.m_IsTileFlyable;
         }
 
         public void MoveToTile(GridTile targetTile, Action onMovementEndCallback)
         {
             m_PathWalker.DeterminePath(targetTile, true, () => { onMovementEndCallback(); });
-            m_CurrentMouvementPoint -= m_PathWalker.m_Path.Count;
+            m_CurrentMouvementPoints -= m_PathWalker.m_Path.Count;
             ClearMovementRange();
+        }
+        public void SpendActionPoints(int ap)
+        {
+            m_CurrentActionPoints -= ap;
         }
 
         public void ClearMovementRange()
@@ -86,7 +91,8 @@ namespace TBSG.Combat
 
         public void NewTurn()
         {
-            m_CurrentMouvementPoint = m_MovementRangeParameters.m_MaxReach;
+            m_CurrentActionPoints = m_StartActionPoints;
+            m_CurrentMouvementPoints = m_MovementRangeParameters.m_MaxReach;
             CalculateMovementRange(true);
         }
     }
