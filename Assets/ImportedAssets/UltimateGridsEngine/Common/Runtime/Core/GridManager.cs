@@ -205,6 +205,12 @@ public class GridManager : MonoBehaviour
         return (GetGridObjectAtPosition(gridPosition) != null);
     }
 
+    public Vector2Int ConvertWorldPosToGridPos(Vector3 worldPos)
+    {
+        Vector3 offsetWorldPos = new Vector3(worldPos.x - 0.5f, worldPos.y, worldPos.z - 0.5f);
+        return offsetWorldPos.ToVector2IntXZ();
+    }
+
     public GridObject GetGridObjectAtPosition(Vector2Int gridPosition)
     {
         if (!Application.isPlaying)
@@ -230,7 +236,7 @@ public class GridManager : MonoBehaviour
         new Vector2Int(0, 1), // top
         new Vector2Int(1, 0), // right
         new Vector2Int(0, -1),// bottom
-                new Vector2Int(-1, 0) // left
+        new Vector2Int(-1, 0) // left
     };
 
     // Default rectangle 8 directions (diagonals) 

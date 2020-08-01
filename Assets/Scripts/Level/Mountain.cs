@@ -25,7 +25,7 @@ namespace TBSG.Combat
 
         private void OnAnimEnded()
         {
-            GridObject gridObject = GridManager.Instance.GetGridObjectAtPosition(transform.position.ToVector2IntXZ());
+            GridObject gridObject = GridManager.Instance.GetGridObjectAtPosition(GridManager.Instance.ConvertWorldPosToGridPos(transform.position));
             if (gridObject && gridObject.TryGetComponent(out Entity entity))
             {
                 if (entity == this) return;
