@@ -12,7 +12,7 @@ public static class RangeAlgorithms
             default:
                 return RangeAlgorithms.SearchByGridPosition(start, rangeParameters.m_MaxReach, rangeParameters.m_WalkableTilesOnly, rangeParameters.m_UnOccupiedTilesOnly, rangeParameters.m_SquareRange, rangeParameters.m_IgnoreTilesHeight, rangeParameters.m_IncludeStartingTile, rangeParameters.m_MinReach, canFly);
             case RangeSearchType.RectangleByMovement:
-                return RangeAlgorithms.SearchByMovement(start, rangeParameters.m_MaxReach, rangeParameters.m_IgnoreTilesHeight, rangeParameters.m_IncludeStartingTile, rangeParameters.m_MinReach);
+                return RangeAlgorithms.SearchByMovement(start, rangeParameters.m_MaxReach, rangeParameters.m_IgnoreTilesHeight, rangeParameters.m_IncludeStartingTile, rangeParameters.m_MinReach, canFly);
             case RangeSearchType.HexagonByGridPosition:
                 return RangeAlgorithms.HexagonSearchByGridPosition(start, rangeParameters.m_MaxReach, rangeParameters.m_WalkableTilesOnly, rangeParameters.m_UnOccupiedTilesOnly, rangeParameters.m_IgnoreTilesHeight, rangeParameters.m_IncludeStartingTile, rangeParameters.m_MinReach);
             case RangeSearchType.HexagonByMovement:
@@ -78,7 +78,7 @@ public static class RangeAlgorithms
     }
 
 
-    public static List<GridTile> SearchByMovement(GridTile start, int maxReach, bool ignoreHeight = false, bool includeStartingTile = false, int MinReach = 1)
+    public static List<GridTile> SearchByMovement(GridTile start, int maxReach, bool ignoreHeight = false, bool includeStartingTile = false, int MinReach = 1, bool canFly = false)
     {
         List<GridTile> range = new List<GridTile>();
 
@@ -104,7 +104,7 @@ public static class RangeAlgorithms
             current = frontier.Dequeue();
             if (cost_so_far[current] <= maxReach)
             {
-                foreach (GridTile next in GridManager.Instance.WalkableNeighbors(current, ignoreHeight))
+                foreach (GridTile next in GridManager.Instance.WalkableNeighbors(current, ignoreHeight, true, null, canFly))
                 {
                     float new_cost = cost_so_far[current] + next.Cost();
                     if (!cost_so_far.ContainsKey(next))
