@@ -2,11 +2,11 @@
 
 namespace TBSG.Combat
 {
-    [CreateAssetMenu(fileName = "New Spell", menuName = "Data/Combat/Spell")]
+    [CreateAssetMenu(fileName = "NewSpell", menuName = "Data/Combat/Spell")]
     public class SpellParameters : ScriptableObject
     {
-        public SpellsEnum m_Spell = SpellsEnum.None;
-        public AttackType m_AttackType = AttackType.None;
+        public SpellsEnum m_Spell = 0;
+        public AttackType m_AttackType = 0;
         public int m_ActionPoints = 1;
         public int m_Damages = 1;
         public int m_ThrowsPerTurnNbr = 1;
@@ -16,5 +16,11 @@ namespace TBSG.Combat
         public RangeParameters m_Range = null;
         // public bool m_NeedLineOfSights = false;
         public bool m_ThrowInStraightLine = false;
+    }
+
+    [CreateAssetMenu(fileName = "NewPlayerSpell", menuName = "Data/Combat/PlayerSpell")]
+    public class PlayerSpellParameters : SpellParameters
+    {
+        public CharacterController.CharacterState m_NeedCharacterState = 0;
     }
 }

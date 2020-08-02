@@ -9,13 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 396e7a378c0597c44800e2e29a080ca9, type: 3}
-  m_Name: MortalTouch
-  m_EditorClassIdentifier: 
-  m_Spell: 3
-  m_AttackType: 1
-  m_ActionPoints: 3
-  m_Damages: 3
+  m_Script: {fileID: 0}
+  m_Name: StateChange
+  m_EditorClassIdentifier: Assembly-CSharp:TBSG.Combat:PlayerSpellParameters
+  m_Spell: 1
+  m_AttackType: 3
+  m_ActionPoints: 1
+  m_Damages: 0
   m_ThrowsPerTurnNbr: 0
   m_TargetingPerOpponentNbr: 0
   m_TurnsBetweenThrowsNbr: 0
@@ -24,9 +24,10 @@ MonoBehaviour:
     m_RangeSearchType: 0
     m_SquareRange: 0
     m_MinReach: 0
-    m_MaxReach: 1
-    m_WalkableTilesOnly: 1
+    m_MaxReach: 0
+    m_WalkableTilesOnly: 0
     m_UnOccupiedTilesOnly: 0
     m_IgnoreTilesHeight: 0
-    m_IncludeStartingTile: 0
+    m_IncludeStartingTile: 1
   m_ThrowInStraightLine: 0
+  m_NeedCharacterStart: 0

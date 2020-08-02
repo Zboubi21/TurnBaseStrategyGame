@@ -6,11 +6,13 @@ namespace TBSG.Combat
     public class CharacterController : MonoBehaviour
     {
         [Header("Attacks")]
-        [SerializeField] private SpellParameters[] m_Attacks = null;
+        [SerializeField] private PlayerSpellParameters[] m_Attacks = null;
+
+        public enum CharacterState { None, Creation, Destruction }
 
         private Character m_Character; 
         private bool m_InMovementState = true;
-        private SpellParameters m_CurrentSpell;
+        private PlayerSpellParameters m_CurrentSpell;
         private bool m_InCreationState = true;
 
         private void Awake()
@@ -56,15 +58,16 @@ namespace TBSG.Combat
 
         private void SetCurrentPlayerSpell(SpellsEnum spellEnum)
         {
-            SpellParameters spell = Spells.GetDataSpellWithSpellEnum(m_Attacks, spellEnum);
+            PlayerSpellParameters spell = Spells.GetDataSpellWithSpellEnum(m_Attacks, spellEnum);
             if (!m_Character.HasEnoughActionPoints(spell)) return;
             m_CurrentSpell = spell;
             m_Character.CalculateAttackRange(spell.m_Range, true);
             m_InMovementState = false;
         }
 
-        private void LaunchSpell(SpellParameters spell, GridTile gridTile)
+        private void LaunchSpell(PlayerSpellParameters spell, GridTile gridTile)
         {
+            if (!IsItInTheRightState(spell)) return;
             if (!m_Character.CanAttackTile(GridManager.Instance.m_HoveredGridTile)) return;
 
             switch (spell.m_AttackType)
@@ -84,6 +87,13 @@ namespace TBSG.Combat
                 case AttackType.Teleportation:
                 break;
             }
+        }
+
+        private bool IsItInTheRightState(PlayerSpellParameters spell)
+        {
+            return spell.m_NeedCharacterState == CharacterState.None ||
+                (m_InCreationState && spell.m_NeedCharacterState == CharacterState.Creation) || 
+                (!m_InCreationState && spell.m_NeedCharacterState == CharacterState.Destruction);
         }
 
         private void LaunchAttack(SpellParameters spell, GridTile gridTile)

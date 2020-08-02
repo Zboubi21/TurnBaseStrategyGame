@@ -314,9 +314,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Attacks:
-  - {fileID: 11400000, guid: 5710dbf30864cb24f80414c2ed2cc190, type: 2}
-  - {fileID: 11400000, guid: ffc1b0bf6710d354bbfd831980bf110f, type: 2}
-  - {fileID: 11400000, guid: f25b4fce924168442ad8b9da517f931e, type: 2}
+  - {fileID: 11400000, guid: 1794c0186ebc81443b33e91b6f23c362, type: 2}
+  - {fileID: 11400000, guid: d40334d5c8908ea47a47da6a5dc67984, type: 2}
+  - {fileID: 11400000, guid: edffe2ddde846574ca55d413f7d8675e, type: 2}
 --- !u!1 &9124723159104139282
 GameObject:
   m_ObjectHideFlags: 0
