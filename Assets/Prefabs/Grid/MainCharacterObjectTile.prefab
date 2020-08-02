@@ -314,7 +314,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Attacks:
+  - {fileID: 11400000, guid: 5710dbf30864cb24f80414c2ed2cc190, type: 2}
   - {fileID: 11400000, guid: ffc1b0bf6710d354bbfd831980bf110f, type: 2}
+  - {fileID: 11400000, guid: f25b4fce924168442ad8b9da517f931e, type: 2}
 --- !u!1 &9124723159104139282
 GameObject:
   m_ObjectHideFlags: 0

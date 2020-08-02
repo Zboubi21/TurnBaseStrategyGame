@@ -11,6 +11,7 @@ namespace TBSG.Combat
         private Character m_Character; 
         private bool m_InMovementState = true;
         private SpellParameters m_CurrentSpell;
+        private bool m_InCreationState = true;
 
         private void Awake()
         {
@@ -55,7 +56,7 @@ namespace TBSG.Combat
 
         private void SetCurrentPlayerSpell(SpellsEnum spellEnum)
         {
-            SpellParameters spell = GetSpellWithEnum(spellEnum);
+            SpellParameters spell = Spells.GetDataSpellWithSpellEnum(m_Attacks, spellEnum);
             if (!m_Character.HasEnoughActionPoints(spell)) return;
             m_CurrentSpell = spell;
             m_Character.CalculateAttackRange(spell.m_Range, true);
@@ -66,19 +67,32 @@ namespace TBSG.Combat
         {
             if (!m_Character.CanAttackTile(GridManager.Instance.m_HoveredGridTile)) return;
 
-            if (spell.m_ObjectToSpawn)
+            switch (spell.m_AttackType)
             {
-                SpawnObjectOnTile(spell, spell.m_ObjectToSpawn, gridTile);
-            }
-            else
-            {
-                GridObject gridObject = GridManager.Instance.GetGridObjectAtPosition(gridTile.m_GridPosition);
-                if (gridObject && gridObject.TryGetComponent(out Entity entity))
-                    entity.TakeDamage(spell.m_Damages);
-                OnLaunchedSpell(spell);
+                case AttackType.Damage:
+                    LaunchAttack(spell, gridTile);
+                break;
+
+                case AttackType.Invocation:
+                    SpawnObjectOnTile(spell, spell.m_ObjectToSpawn, gridTile);
+                break;
+
+                case AttackType.StateChange:
+                    ChangeCharacterState(spell, gridTile);
+                break;
+                
+                case AttackType.Teleportation:
+                break;
             }
         }
 
+        private void LaunchAttack(SpellParameters spell, GridTile gridTile)
+        {
+            GridObject gridObject = GridManager.Instance.GetGridObjectAtPosition(gridTile.m_GridPosition);
+            if (gridObject && gridObject.TryGetComponent(out Entity entity))
+                entity.TakeDamage(spell.m_Damages);
+            OnLaunchedSpell(spell);
+        }
         private void SpawnObjectOnTile(SpellParameters spell, GameObject obj, GridTile gridTile)
         {
             if (!gridTile.m_IsTileFlyable)
@@ -96,7 +110,11 @@ namespace TBSG.Combat
                 OnLaunchedSpell(spell);
             }
         }
-
+        private void ChangeCharacterState(SpellParameters spell, GridTile gridTile)
+        {
+            m_InCreationState =! m_InCreationState;
+            OnLaunchedSpell(spell);
+        }
         private void OnLaunchedSpell(SpellParameters spell)
         {
             m_Character.SpendActionPoints(spell.m_ActionPoints);
@@ -118,15 +136,6 @@ namespace TBSG.Combat
         private void OnCharacterReachedTargetPos()
         {
             m_Character.CalculateMovementRange(true);
-        }
-
-        private SpellParameters GetSpellWithEnum(SpellsEnum spellEnum)
-        {
-            if (m_Attacks == null || m_Attacks.Length == 0) return null;
-            for (int i = 0, l = m_Attacks.Length; i < l; ++i)
-                if (m_Attacks[i].m_Spell == spellEnum)
-                    return m_Attacks[i];
-            return null;
         }
     }
 }

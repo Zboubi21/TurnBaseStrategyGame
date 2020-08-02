@@ -10,24 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 396e7a378c0597c44800e2e29a080ca9, type: 3}
-  m_Name: God'sCreation
+  m_Name: MortalTouch
   m_EditorClassIdentifier: 
-  m_Spell: 2
-  m_AttackType: 2
-  m_ActionPoints: 2
-  m_Damages: 1
+  m_Spell: 3
+  m_AttackType: 1
+  m_ActionPoints: 3
+  m_Damages: 3
   m_ThrowsPerTurnNbr: 0
   m_TargetingPerOpponentNbr: 0
   m_TurnsBetweenThrowsNbr: 0
-  m_ObjectToSpawn: {fileID: 3063526555832202331, guid: 7a83e2ada53857a4296fafa166ee4d52,
-    type: 3}
+  m_ObjectToSpawn: {fileID: 0}
   m_Range:
     m_RangeSearchType: 0
     m_SquareRange: 0
-    m_MinReach: 2
-    m_MaxReach: 3
+    m_MinReach: 0
+    m_MaxReach: 1
     m_WalkableTilesOnly: 1
     m_UnOccupiedTilesOnly: 0
-    m_IgnoreTilesHeight: 1
+    m_IgnoreTilesHeight: 0
     m_IncludeStartingTile: 0
   m_ThrowInStraightLine: 0
