@@ -19,12 +19,23 @@ namespace TBSG.Combat
         private GridMovement m_GridMovement;
         [NaughtyAttributes.ReadOnly, SerializeField] private int m_CurrentActionPoints, m_CurrentMouvementPoints;
 
+        private void Awake()
+        {
+            Setup();
+        }
+
         protected override void Start()
         {
             base.Start();
             m_GridObject = GetComponent<GridObject>();
             m_PathWalker = GetComponent<CharacterPathWalker>();
             m_GridMovement = GetComponent<GridMovement>();
+        }
+
+        private void Setup()
+        {
+            m_CurrentActionPoints = m_StartActionPoints;
+            m_CurrentMouvementPoints = m_MovementRangeParameters.m_MaxReach;
         }
 
         public void CalculateMovementRange(bool andHighlight = false)
@@ -91,8 +102,7 @@ namespace TBSG.Combat
 
         public void NewTurn()
         {
-            m_CurrentActionPoints = m_StartActionPoints;
-            m_CurrentMouvementPoints = m_MovementRangeParameters.m_MaxReach;
+            Setup();
             CalculateMovementRange(true);
         }
     }

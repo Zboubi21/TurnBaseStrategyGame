@@ -1,16 +1,18 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using TBSG.UI;
 
 namespace TBSG.Combat
 {
     public class CharacterController : MonoBehaviour
     {
-        [Header("Attacks")]
-        [SerializeField] private PlayerSpellParameters[] m_Attacks = null;
+        public static event Action OnLaunchSpell;
 
         public enum CharacterState { None, Creation, Destruction }
 
         private Character m_Character; 
+        public Character Character => m_Character;
+
         private bool m_InMovementState = true;
         private PlayerSpellParameters m_CurrentSpell;
         private bool m_InCreationState = true;
@@ -47,7 +49,8 @@ namespace TBSG.Combat
             if (m_InMovementState)
                 MovePlayer();
             else
-                LaunchSpell(m_CurrentSpell, GridManager.Instance.m_HoveredGridTile);
+                if (IsItInTheRightState(m_CurrentSpell))
+                    LaunchSpell(m_CurrentSpell, GridManager.Instance.m_HoveredGridTile);
         }
 
         private void MovePlayer()
@@ -58,16 +61,15 @@ namespace TBSG.Combat
 
         private void SetCurrentPlayerSpell(SpellsEnum spellEnum)
         {
-            PlayerSpellParameters spell = Spells.GetDataSpellWithSpellEnum(m_Attacks, spellEnum);
+            PlayerSpellParameters spell = SpellManager.Instance.GetPlayerSpellWithEnum(spellEnum);
             if (!m_Character.HasEnoughActionPoints(spell)) return;
             m_CurrentSpell = spell;
             m_Character.CalculateAttackRange(spell.m_Range, true);
             m_InMovementState = false;
         }
 
-        private void LaunchSpell(PlayerSpellParameters spell, GridTile gridTile)
+        private void LaunchSpell(SpellParameters spell, GridTile gridTile)
         {
-            if (!IsItInTheRightState(spell)) return;
             if (!m_Character.CanAttackTile(GridManager.Instance.m_HoveredGridTile)) return;
 
             switch (spell.m_AttackType)
@@ -89,7 +91,7 @@ namespace TBSG.Combat
             }
         }
 
-        private bool IsItInTheRightState(PlayerSpellParameters spell)
+        public bool IsItInTheRightState(PlayerSpellParameters spell)
         {
             return spell.m_NeedCharacterState == CharacterState.None ||
                 (m_InCreationState && spell.m_NeedCharacterState == CharacterState.Creation) || 
@@ -131,6 +133,7 @@ namespace TBSG.Combat
             m_InMovementState = true;
             m_Character.ClearAttackRange();
             m_Character.CalculateMovementRange(true);
+            OnLaunchSpell?.Invoke();
         }
 
         private void DestroyMountainOnTile(GridTile gridTile)
