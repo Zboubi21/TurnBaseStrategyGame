@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp:TBSG.Combat:PlayerSpellParameters
   m_Spell: 3
   m_AttackType: 1
-  m_ActionPoints: 3
-  m_Damages: 3
-  m_ThrowsPerTurnNbr: 1
-  m_TargetingPerOpponentNbr: 0
+  m_ActionPoints: 1
+  m_Damages: 1
+  m_ThrowsPerTurnNbr: 5
+  m_TargetingPerOpponentNbr: 2
   m_TurnsBetweenThrowsNbr: 0
   m_ObjectToSpawn: {fileID: 0}
   m_Range:

@@ -23,6 +23,9 @@ namespace TBSG.Combat
 
         [SerializeField]
         private Dictionary<SpellParameters, int> m_ThrowedPerTurnSpells = new Dictionary<SpellParameters, int>();
+        [SerializeField]
+        private Dictionary<SpellParameters, List<Entity>> m_TargetingPerOpponentSpells = new Dictionary<SpellParameters, List<Entity>>();
+        // private Dictionary<SpellParameters, int> m_TurnsBetweenThrowsSpells = new Dictionary<SpellParameters, int>();
 
         private void Awake()
         {
@@ -35,6 +38,7 @@ namespace TBSG.Combat
             m_InMovementState = true;
             m_Character.NewTurn();
             ResetThrowedPerTurnSpells();
+            ResetTargetOpponentsSpells();
         }
 
         private void Update()
@@ -57,7 +61,7 @@ namespace TBSG.Combat
             if (m_InMovementState)
                 MovePlayer();
             else
-                if (CanLaunchSpell(m_CurrentSpell) && m_Character.CanAttackTile(GridManager.Instance.m_HoveredGridTile))
+                if (CanLaunchSpell(m_CurrentSpell) && m_Character.CanAttackTile(GridManager.Instance.m_HoveredGridTile) && CanTargetingOpponentWithSpell(m_CurrentSpell, CombatManager.Instance.GetEntityOnGridTile(GridManager.Instance.m_HoveredGridTile)))
                     LaunchSpell(m_CurrentSpell, GridManager.Instance.m_HoveredGridTile);
         }
 
@@ -106,6 +110,33 @@ namespace TBSG.Combat
             return false;
         }
 
+        private bool CanTargetingOpponentWithSpell(SpellParameters spell, Entity entity)
+        {
+            if (!m_TargetingPerOpponentSpells.ContainsKey(spell))
+            {
+                if (spell.m_TargetingPerOpponentNbr != 0)
+                    m_TargetingPerOpponentSpells.Add(spell, new List<Entity>());
+                return true;
+            }
+            else
+            {
+                foreach (KeyValuePair<SpellParameters, List<Entity>> item in m_TargetingPerOpponentSpells)
+                    if (item.Key == spell && GetTargetNbrs(item.Value, entity) < item.Key.m_TargetingPerOpponentNbr)
+                        return true;
+            }
+            return false;
+        }
+
+        private int GetTargetNbrs(List<Entity> entities, Entity entity)
+        {
+            int entityNbr = 0;
+            if (entities != null && entities.Count > 0)
+                for (int i = 0, l = entities.Count; i < l; ++i)
+                    if (entities[i] == entity)
+                        entityNbr ++;
+            return entityNbr;
+        }
+
         private void LaunchSpell(SpellParameters spell, GridTile gridTile)
         {
             switch (spell.m_AttackType)
@@ -131,18 +162,30 @@ namespace TBSG.Combat
         {
             m_ThrowedPerTurnSpells[spell] ++;
         }
-
         private void ResetThrowedPerTurnSpells()
         {
             foreach (KeyValuePair<SpellParameters, int> item in m_ThrowedPerTurnSpells.ToList())
                 m_ThrowedPerTurnSpells[item.Key] = 0;
         }
 
+        private void AddTargetOpponentSpells(SpellParameters spell, Entity target)
+        {
+            m_TargetingPerOpponentSpells[spell].Add(target);
+        }
+        private void ResetTargetOpponentsSpells()
+        {
+            foreach (KeyValuePair<SpellParameters, List<Entity>> item in m_TargetingPerOpponentSpells.ToList())
+                m_TargetingPerOpponentSpells[item.Key].Clear();
+        }
+
         private void LaunchAttack(SpellParameters spell, GridTile gridTile)
         {
             GridObject gridObject = GridManager.Instance.GetGridObjectAtPosition(gridTile.m_GridPosition);
             if (gridObject && gridObject.TryGetComponent(out Entity entity))
+            {
                 entity.TakeDamage(spell.m_Damages);
+                AddTargetOpponentSpells(spell, entity);
+            }
             OnLaunchedSpell(spell);
         }
         private void SpawnObjectOnTile(SpellParameters spell, GameObject obj, GridTile gridTile)

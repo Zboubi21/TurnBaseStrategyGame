@@ -25,5 +25,13 @@ namespace TBSG.Combat
             m_CharacterController.NewTurn();
             OnTurnChanged?.Invoke();
         }
+
+        public Entity GetEntityOnGridTile(GridTile tile)
+        {
+            GridObject gridObject = GridManager.Instance.GetGridObjectAtPosition(tile.m_GridPosition);
+            if (gridObject && gridObject.TryGetComponent(out Entity entity))
+                return entity;
+            return null;
+        }
     }
 }
