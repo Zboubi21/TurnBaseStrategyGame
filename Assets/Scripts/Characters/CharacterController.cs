@@ -1,10 +1,14 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System;
 using UnityEngine;
 using TBSG.UI;
+using System.Linq;
+
+using Sirenix.OdinInspector;
 
 namespace TBSG.Combat
 {
-    public class CharacterController : MonoBehaviour
+    public class CharacterController : SerializedMonoBehaviour
     {
         public static event Action OnLaunchSpell;
 
@@ -17,6 +21,9 @@ namespace TBSG.Combat
         private PlayerSpellParameters m_CurrentSpell;
         private bool m_InCreationState = true;
 
+        [SerializeField]
+        private Dictionary<SpellParameters, int> m_ThrowedPerTurnSpells = new Dictionary<SpellParameters, int>();
+
         private void Awake()
         {
             m_Character = GetComponent<Character>();
@@ -27,6 +34,7 @@ namespace TBSG.Combat
         {
             m_InMovementState = true;
             m_Character.NewTurn();
+            ResetThrowedPerTurnSpells();
         }
 
         private void Update()
@@ -49,7 +57,7 @@ namespace TBSG.Combat
             if (m_InMovementState)
                 MovePlayer();
             else
-                if (IsItInTheRightState(m_CurrentSpell))
+                if (CanLaunchSpell(m_CurrentSpell) && m_Character.CanAttackTile(GridManager.Instance.m_HoveredGridTile))
                     LaunchSpell(m_CurrentSpell, GridManager.Instance.m_HoveredGridTile);
         }
 
@@ -68,10 +76,38 @@ namespace TBSG.Combat
             m_InMovementState = false;
         }
 
+        public bool CanLaunchSpell(PlayerSpellParameters spell)
+        {
+            return IsItInTheRightState(spell) && 
+                CanThrowedPerTurnSpell(spell) && 
+                m_Character.HasEnoughActionPoints(spell);
+        }
+
+        private bool IsItInTheRightState(PlayerSpellParameters spell)
+        {
+            return spell.m_NeedCharacterState == CharacterState.None ||
+                (m_InCreationState && spell.m_NeedCharacterState == CharacterState.Creation) || 
+                (!m_InCreationState && spell.m_NeedCharacterState == CharacterState.Destruction);
+        }
+
+        private bool CanThrowedPerTurnSpell(SpellParameters spell)
+        {
+            if (!m_ThrowedPerTurnSpells.ContainsKey(spell))
+            {
+                m_ThrowedPerTurnSpells.Add(spell, 0);
+                return true;
+            }
+            else
+            {
+                foreach (KeyValuePair<SpellParameters, int> item in m_ThrowedPerTurnSpells)
+                    if (item.Key == spell && item.Value < item.Key.m_ThrowsPerTurnNbr)
+                        return true;
+            }
+            return false;
+        }
+
         private void LaunchSpell(SpellParameters spell, GridTile gridTile)
         {
-            if (!m_Character.CanAttackTile(GridManager.Instance.m_HoveredGridTile)) return;
-
             switch (spell.m_AttackType)
             {
                 case AttackType.Damage:
@@ -91,11 +127,15 @@ namespace TBSG.Combat
             }
         }
 
-        public bool IsItInTheRightState(PlayerSpellParameters spell)
+        private void AddThrowedPerTurnSpells(SpellParameters spell)
         {
-            return spell.m_NeedCharacterState == CharacterState.None ||
-                (m_InCreationState && spell.m_NeedCharacterState == CharacterState.Creation) || 
-                (!m_InCreationState && spell.m_NeedCharacterState == CharacterState.Destruction);
+            m_ThrowedPerTurnSpells[spell] ++;
+        }
+
+        private void ResetThrowedPerTurnSpells()
+        {
+            foreach (KeyValuePair<SpellParameters, int> item in m_ThrowedPerTurnSpells.ToList())
+                m_ThrowedPerTurnSpells[item.Key] = 0;
         }
 
         private void LaunchAttack(SpellParameters spell, GridTile gridTile)
@@ -133,6 +173,7 @@ namespace TBSG.Combat
             m_InMovementState = true;
             m_Character.ClearAttackRange();
             m_Character.CalculateMovementRange(true);
+            AddThrowedPerTurnSpells(spell);
             OnLaunchSpell?.Invoke();
         }
 

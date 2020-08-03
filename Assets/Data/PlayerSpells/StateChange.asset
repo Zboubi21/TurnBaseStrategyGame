@@ -16,7 +16,7 @@ MonoBehaviour:
   m_AttackType: 3
   m_ActionPoints: 1
   m_Damages: 0
-  m_ThrowsPerTurnNbr: 0
+  m_ThrowsPerTurnNbr: 2
   m_TargetingPerOpponentNbr: 0
   m_TurnsBetweenThrowsNbr: 0
   m_ObjectToSpawn: {fileID: 0}
@@ -30,4 +30,4 @@ MonoBehaviour:
     m_IgnoreTilesHeight: 0
     m_IncludeStartingTile: 1
   m_ThrowInStraightLine: 0
-  m_NeedCharacterStart: 0
+  m_NeedCharacterState: 0

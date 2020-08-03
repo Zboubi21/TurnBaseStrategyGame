@@ -35,7 +35,7 @@ namespace TBSG.UI
         private bool IsSpellAvailable()
         {
             PlayerSpellParameters spell = SpellManager.Instance.GetPlayerSpellWithEnum(m_Spell);
-            return CombatManager.Instance.CharacterController.Character.HasEnoughActionPoints(spell) && CombatManager.Instance.CharacterController.IsItInTheRightState(spell);
+            return CombatManager.Instance.CharacterController.CanLaunchSpell(spell);
         }
     }
 }

@@ -16,7 +16,7 @@ MonoBehaviour:
   m_AttackType: 1
   m_ActionPoints: 3
   m_Damages: 3
-  m_ThrowsPerTurnNbr: 0
+  m_ThrowsPerTurnNbr: 1
   m_TargetingPerOpponentNbr: 0
   m_TurnsBetweenThrowsNbr: 0
   m_ObjectToSpawn: {fileID: 0}
