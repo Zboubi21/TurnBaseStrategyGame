@@ -25,8 +25,8 @@ namespace TBSG.Combat
 
         private void OnAnimEnded()
         {
-            GridObject gridObject = GridManager.Instance.GetGridObjectAtPosition(GridManager.Instance.ConvertWorldPosToGridPos(transform.position));
-            if (gridObject && gridObject.TryGetComponent(out Entity entity))
+            Entity entity = CombatManager.Instance.GetEntityOnGridTile(GridManager.Instance.GetGridTileAtPosition(GridManager.Instance.ConvertWorldPosToGridPos(transform.position)));
+            if (entity != null)
             {
                 if (entity == this) return;
                 entity.TakeDamage(m_ImpactDamage);
