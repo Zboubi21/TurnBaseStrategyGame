@@ -9,6 +9,9 @@ namespace TBSG.Combat
     [RequireComponent(typeof(GridMovement))]
     public class Character : Entity
     {
+        public event Action OnActionPointsChanged;
+        public event Action OnMovementPointsChanged;
+        
         [SerializeField] private int m_StartActionPoints = 6;
         [SerializeField] private RangeParameters m_MovementRangeParameters = null;
 
@@ -18,6 +21,9 @@ namespace TBSG.Combat
         private GridObject m_GridObject;
         private GridMovement m_GridMovement;
         [NaughtyAttributes.ReadOnly, SerializeField] private int m_CurrentActionPoints, m_CurrentMouvementPoints;
+
+        public int CurrentActionPoints => m_CurrentActionPoints;
+        public int CurrentMouvementPoints => m_CurrentMouvementPoints;
 
         private void Awake()
         {
@@ -35,7 +41,9 @@ namespace TBSG.Combat
         private void Setup()
         {
             m_CurrentActionPoints = m_StartActionPoints;
+            OnActionPointsChanged?.Invoke();
             m_CurrentMouvementPoints = m_MovementRangeParameters.m_MaxReach;
+            OnMovementPointsChanged?.Invoke();
         }
 
         public void CalculateMovementRange(bool andHighlight = false)
@@ -83,10 +91,12 @@ namespace TBSG.Combat
             m_PathWalker.DeterminePath(targetTile, true, () => { onMovementEndCallback(); });
             m_CurrentMouvementPoints -= m_PathWalker.m_Path.Count;
             ClearMovementRange();
+            OnMovementPointsChanged?.Invoke();
         }
         public void SpendActionPoints(int ap)
         {
             m_CurrentActionPoints -= ap;
+            OnActionPointsChanged?.Invoke();
         }
 
         public void ClearMovementRange()
