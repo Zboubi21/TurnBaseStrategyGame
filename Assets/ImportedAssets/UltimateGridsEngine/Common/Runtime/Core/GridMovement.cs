@@ -405,6 +405,27 @@ public class GridMovement : MonoBehaviour
         _gridObject.m_GridPosition = targetGridTile.m_GridPosition;
     }
 
+    public void SwapGridObjectsPositions(GridObject object1, GridObject object2)
+    {
+        GridTile targetTile1 = object1.m_CurrentGridTile;
+        GridTile targetTile2 = object2.m_CurrentGridTile;
+
+        object1.RemoveFromTile();
+        object2.RemoveFromTile();
+
+        object1.SetCurrentGridTile(targetTile2);
+        object2.SetCurrentGridTile(targetTile1);
+
+        object1.AddToTile(targetTile2);
+        object2.AddToTile(targetTile1);
+
+        object1.m_GridPosition = targetTile2.m_GridPosition;
+        object2.m_GridPosition = targetTile1.m_GridPosition;
+
+        object1.transform.position = targetTile2.m_GridObjectsPivotPosition;
+        object2.transform.position = targetTile1.m_GridObjectsPivotPosition;
+    }
+
     // Swap the facing direction a new one 
     public virtual void SwapFacingDirection(Vector2Int targetDirection)
     {

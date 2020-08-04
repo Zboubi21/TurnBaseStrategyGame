@@ -93,6 +93,14 @@ namespace TBSG.Combat
             ClearMovementRange();
             OnMovementPointsChanged?.Invoke();
         }
+        public void TeleportOnTile(GridTile targetTile)
+        {
+            m_GridMovement.TryMoveTo(targetTile, false, false, false);
+        }
+        public void SwapPositionWithGridObject(GridObject targetObject)
+        {
+            m_GridMovement.SwapGridObjectsPositions(m_GridObject, targetObject);
+        }
         public void SpendActionPoints(int ap)
         {
             m_CurrentActionPoints -= ap;

@@ -176,6 +176,7 @@ namespace TBSG.Combat
                 break;
                 
                 case AttackType.Teleportation:
+                    TeleportationSpellOnTile(spell, gridTile);
                 break;
             }
         }
@@ -247,6 +248,15 @@ namespace TBSG.Combat
         private void ChangeCharacterState(SpellParameters spell, GridTile gridTile)
         {
             m_InCreationState =! m_InCreationState;
+            OnLaunchedSpell(spell);
+        }
+        private void TeleportationSpellOnTile(SpellParameters spell, GridTile gridTile)
+        {
+            GridObject targetGridObject = GridManager.Instance.GetGridObjectAtPosition(gridTile.m_GridPosition);
+            if (!targetGridObject)
+                m_Character.TeleportOnTile(gridTile);
+            else
+                m_Character.SwapPositionWithGridObject(targetGridObject);
             OnLaunchedSpell(spell);
         }
         private void OnLaunchedSpell(SpellParameters spell)

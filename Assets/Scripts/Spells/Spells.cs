@@ -14,5 +14,6 @@
         StateChange,
         GodsCreation,
         MortalTouch,
+        Jump,
     }
 }
