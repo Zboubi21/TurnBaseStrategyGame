@@ -21,11 +21,10 @@ namespace TBSG.Combat
         private PlayerSpellParameters m_CurrentSpell;
         private bool m_InCreationState = true;
 
-        [SerializeField]
-        private Dictionary<SpellParameters, int> m_ThrowedPerTurnSpells = new Dictionary<SpellParameters, int>();
-        [SerializeField]
-        private Dictionary<SpellParameters, List<Entity>> m_TargetingPerOpponentSpells = new Dictionary<SpellParameters, List<Entity>>();
-        // private Dictionary<SpellParameters, int> m_TurnsBetweenThrowsSpells = new Dictionary<SpellParameters, int>();
+        [Header("Debug")]
+        [SerializeField] private Dictionary<SpellParameters, int> m_ThrowedPerTurnSpells = new Dictionary<SpellParameters, int>();
+        [SerializeField] private Dictionary<SpellParameters, List<Entity>> m_TargetingPerOpponentSpells = new Dictionary<SpellParameters, List<Entity>>();
+        [SerializeField] private Dictionary<SpellParameters, int> m_TurnsBetweenThrowsSpells = new Dictionary<SpellParameters, int>();
 
         private void Awake()
         {
@@ -39,6 +38,7 @@ namespace TBSG.Combat
             m_Character.NewTurn();
             ResetThrowedPerTurnSpells();
             ResetTargetOpponentsSpells();
+            ResetTurnsBetweenThrowsSpell();
         }
 
         private void Update()
@@ -84,6 +84,7 @@ namespace TBSG.Combat
         {
             return IsItInTheRightState(spell) && 
                 CanThrowedPerTurnSpell(spell) && 
+                CanThrowedTurnsBetweenThrowsSpell(spell) &&
                 m_Character.HasEnoughActionPoints(spell);
         }
 
@@ -96,6 +97,8 @@ namespace TBSG.Combat
 
         private bool CanThrowedPerTurnSpell(SpellParameters spell)
         {
+            if (spell.m_ThrowsPerTurnNbr == 0) return true;
+
             if (!m_ThrowedPerTurnSpells.ContainsKey(spell))
             {
                 m_ThrowedPerTurnSpells.Add(spell, 0);
@@ -112,16 +115,35 @@ namespace TBSG.Combat
 
         private bool CanTargetingOpponentWithSpell(SpellParameters spell, Entity entity)
         {
+            if (spell.m_TargetingPerOpponentNbr == 0) return true;
+
             if (!m_TargetingPerOpponentSpells.ContainsKey(spell))
             {
-                if (spell.m_TargetingPerOpponentNbr != 0)
-                    m_TargetingPerOpponentSpells.Add(spell, new List<Entity>());
+                m_TargetingPerOpponentSpells.Add(spell, new List<Entity>());
                 return true;
             }
             else
             {
                 foreach (KeyValuePair<SpellParameters, List<Entity>> item in m_TargetingPerOpponentSpells)
                     if (item.Key == spell && GetTargetNbrs(item.Value, entity) < item.Key.m_TargetingPerOpponentNbr)
+                        return true;
+            }
+            return false;
+        }
+
+        private bool CanThrowedTurnsBetweenThrowsSpell(SpellParameters spell)
+        {
+            if (spell.m_TurnsBetweenThrowsNbr == 0) return true;
+
+            if (!m_TurnsBetweenThrowsSpells.ContainsKey(spell))
+            {
+                m_TurnsBetweenThrowsSpells.Add(spell, 0);
+                return true;
+            }
+            else
+            {
+                foreach (KeyValuePair<SpellParameters, int> item in m_TurnsBetweenThrowsSpells)
+                    if (item.Key == spell && item.Value == 0)
                         return true;
             }
             return false;
@@ -160,7 +182,8 @@ namespace TBSG.Combat
 
         private void AddThrowedPerTurnSpells(SpellParameters spell)
         {
-            m_ThrowedPerTurnSpells[spell] ++;
+            if (m_ThrowedPerTurnSpells.ContainsKey(spell))
+                m_ThrowedPerTurnSpells[spell] ++;
         }
         private void ResetThrowedPerTurnSpells()
         {
@@ -170,12 +193,25 @@ namespace TBSG.Combat
 
         private void AddTargetOpponentSpells(SpellParameters spell, Entity target)
         {
-            m_TargetingPerOpponentSpells[spell].Add(target);
+            if (m_TargetingPerOpponentSpells.ContainsKey(spell))
+                m_TargetingPerOpponentSpells[spell].Add(target);
         }
         private void ResetTargetOpponentsSpells()
         {
             foreach (KeyValuePair<SpellParameters, List<Entity>> item in m_TargetingPerOpponentSpells.ToList())
                 m_TargetingPerOpponentSpells[item.Key].Clear();
+        }
+
+        private void AddTurnsBetweenThrowsSpell(SpellParameters spell)
+        {
+            if (m_TurnsBetweenThrowsSpells.ContainsKey(spell))
+                m_TurnsBetweenThrowsSpells[spell] = spell.m_TurnsBetweenThrowsNbr;
+        }
+        private void ResetTurnsBetweenThrowsSpell()
+        {
+            foreach (KeyValuePair<SpellParameters, int> item in m_TurnsBetweenThrowsSpells.ToList())
+                if (item.Value > 0)
+                    m_TurnsBetweenThrowsSpells[item.Key] --;
         }
 
         private void LaunchAttack(SpellParameters spell, GridTile gridTile)
@@ -217,6 +253,7 @@ namespace TBSG.Combat
             m_Character.ClearAttackRange();
             m_Character.CalculateMovementRange(true);
             AddThrowedPerTurnSpells(spell);
+            AddTurnsBetweenThrowsSpell(spell);
             OnLaunchSpell?.Invoke();
         }
 
