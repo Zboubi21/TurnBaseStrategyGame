@@ -237,6 +237,9 @@ namespace TBSG.Combat
                 else
                 {
                     GridObject instantiatedGridObject = Instantiate(obj, targetPosGridObject.transform.position, Quaternion.identity).GetComponent<GridObject>();
+                    Entity targetEntity = CombatManager.Instance.GetEntityOnGridTile(gridTile);
+                    if (targetEntity)
+                        AddTargetOpponentSpells(spell, targetEntity);
                 }
                 OnLaunchedSpell(spell);
             }
