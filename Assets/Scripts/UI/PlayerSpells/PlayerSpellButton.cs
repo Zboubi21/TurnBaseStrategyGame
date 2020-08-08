@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using TBSG.Combat;
-using CharacterController = TBSG.Combat.CharacterController;
 
 namespace TBSG.UI
 {
@@ -11,13 +10,13 @@ namespace TBSG.UI
         [SerializeField] private Button m_Button = null;
 
         private CharacterCanvas m_CharacterCanvas;
-        private PlayerSpellParameters m_PlayerSpellParameters;
+        private SpellParameters m_PlayerSpellParameters;
 
         private void Start()
         {
             UpdateUI();
             CombatManager.OnTurnChanged += UpdateUI;
-            CharacterController.OnLaunchSpell += UpdateUI;
+            CombatManager.Instance.CharacterController.OnLaunchSpell += UpdateUI;
             m_CharacterCanvas = GetComponentInParent<CharacterCanvas>();
             m_Button.onClick.AddListener(OnClickButton);
         }
@@ -34,7 +33,7 @@ namespace TBSG.UI
 
         private bool IsSpellAvailable()
         {
-            PlayerSpellParameters spell = SpellManager.Instance.GetPlayerSpellWithEnum(m_Spell);
+            SpellParameters spell = SpellManager.Instance.GetSpellWithSpellEnum(m_Spell);
             return CombatManager.Instance.CharacterController.CanLaunchSpell(spell);
         }
     }

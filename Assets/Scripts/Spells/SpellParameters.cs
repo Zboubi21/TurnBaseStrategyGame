@@ -16,11 +16,6 @@ namespace TBSG.Combat
         public RangeParameters m_Range = null;
         // public bool m_NeedLineOfSights = false;
         public bool m_ThrowInStraightLine = false;
-    }
-
-    [CreateAssetMenu(fileName = "NewPlayerSpell", menuName = "Data/Combat/PlayerSpell")]
-    public class PlayerSpellParameters : SpellParameters
-    {
-        public CharacterController.CharacterState m_NeedCharacterState = 0;
+        [Range(0, 2)] public int m_NeedState = 0;
     }
 }

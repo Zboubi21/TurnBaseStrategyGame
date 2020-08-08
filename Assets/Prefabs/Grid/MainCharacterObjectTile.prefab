@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8996517672632076002}
   - component: {fileID: 7099574614152849795}
   - component: {fileID: 446049769155736562}
-  - component: {fileID: 7018155880319914982}
+  - component: {fileID: 2674566070556946603}
   m_Layer: 0
   m_Name: MainCharacterObjectTile
   m_TagString: Untagged
@@ -301,7 +301,7 @@ MonoBehaviour:
     m_IncludeStartingTile: 0
   m_CurrentActionPoints: 0
   m_CurrentMouvementPoints: 0
---- !u!114 &7018155880319914982
+--- !u!114 &2674566070556946603
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -310,13 +310,71 @@ MonoBehaviour:
   m_GameObject: {fileID: 8996517672632076007}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02c8deb1f3230eb48a3087d7f103941a, type: 3}
+  m_Script: {fileID: 11500000, guid: 671b1d0dc5248d04d9534c78bf071abb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Attacks:
-  - {fileID: 11400000, guid: 1794c0186ebc81443b33e91b6f23c362, type: 2}
-  - {fileID: 11400000, guid: d40334d5c8908ea47a47da6a5dc67984, type: 2}
-  - {fileID: 11400000, guid: edffe2ddde846574ca55d413f7d8675e, type: 2}
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: m_ThrowedPerTurnSpells
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[TBSG.Combat.SpellParameters,
+        Assembly-CSharp],[System.Int32, mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.ObjectEqualityComparer`1[[TBSG.Combat.SpellParameters,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_TargetingPerOpponentSpells
+      Entry: 7
+      Data: 2|System.Collections.Generic.Dictionary`2[[TBSG.Combat.SpellParameters,
+        Assembly-CSharp],[System.Collections.Generic.List`1[[TBSG.Combat.Entity,
+        Assembly-CSharp]], mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 9
+      Data: 1
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: m_TurnsBetweenThrowsSpells
+      Entry: 7
+      Data: 3|System.Collections.Generic.Dictionary`2[[TBSG.Combat.SpellParameters,
+        Assembly-CSharp],[System.Int32, mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 9
+      Data: 1
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
 --- !u!1 &9124723159104139282
 GameObject:
   m_ObjectHideFlags: 0

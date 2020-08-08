@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System;
 using UnityEngine;
-using TBSG.UI;
 using System.Linq;
 
 using Sirenix.OdinInspector;
@@ -10,26 +9,22 @@ namespace TBSG.Combat
 {
     public class CharacterController : SerializedMonoBehaviour
     {
-        public static event Action OnLaunchSpell;
+        public event Action OnLaunchSpell;
 
-        public enum CharacterState { None, Creation, Destruction }
-
-        private Character m_Character; 
+        protected Character m_Character; 
         public Character Character => m_Character;
 
-        private bool m_InMovementState = true;
-        private PlayerSpellParameters m_CurrentSpell;
-        private bool m_InCreationState = true;
+        protected bool m_InMovementState = true;
+        protected SpellParameters m_CurrentSpell;
 
         [Header("Debug")]
         [SerializeField] private Dictionary<SpellParameters, int> m_ThrowedPerTurnSpells = new Dictionary<SpellParameters, int>();
         [SerializeField] private Dictionary<SpellParameters, List<Entity>> m_TargetingPerOpponentSpells = new Dictionary<SpellParameters, List<Entity>>();
         [SerializeField] private Dictionary<SpellParameters, int> m_TurnsBetweenThrowsSpells = new Dictionary<SpellParameters, int>();
 
-        private void Awake()
+        protected virtual void Awake()
         {
             m_Character = GetComponent<Character>();
-            CharacterCanvas.OnClickSpell += SetCurrentPlayerSpell;
         }
 
         public void NewTurn()
@@ -41,58 +36,26 @@ namespace TBSG.Combat
             ResetTurnsBetweenThrowsSpell();
         }
 
-        private void Update()
-        {
-            DetectMouse(); 
-        }
-
-        private void DetectMouse()
-        {
-            if (!GridManager.Instance.m_HoveredGridTile) return;
-
-            if (Input.GetMouseButtonDown(0))
-                DoMainAction();
-            if (Input.GetMouseButtonDown(2))
-                DestroyMountainOnTile(GridManager.Instance.m_HoveredGridTile);
-        }
-
-        private void DoMainAction()
-        {
-            if (m_InMovementState)
-                MovePlayer();
-            else
-                if (CanLaunchSpell(m_CurrentSpell) && m_Character.CanAttackTile(GridManager.Instance.m_HoveredGridTile) && CanTargetingOpponentWithSpell(m_CurrentSpell, CombatManager.Instance.GetEntityOnGridTile(GridManager.Instance.m_HoveredGridTile)))
-                    LaunchSpell(m_CurrentSpell, GridManager.Instance.m_HoveredGridTile);
-        }
-
-        private void MovePlayer()
+        protected void MoveCharacter()
         {
             if (m_Character.CanMoveToTile(GridManager.Instance.m_HoveredGridTile))
                 m_Character.MoveToTile(GridManager.Instance.m_HoveredGridTile, OnCharacterReachedTargetPos); 
         }
 
-        private void SetCurrentPlayerSpell(SpellsEnum spellEnum)
+        public virtual bool CanLaunchSpell(SpellParameters spell)
         {
-            PlayerSpellParameters spell = SpellManager.Instance.GetPlayerSpellWithEnum(spellEnum);
-            if (!m_Character.HasEnoughActionPoints(spell)) return;
-            m_CurrentSpell = spell;
-            m_Character.CalculateAttackRange(spell.m_Range, true);
-            m_InMovementState = false;
-        }
-
-        public bool CanLaunchSpell(PlayerSpellParameters spell)
-        {
-            return IsItInTheRightState(spell) && 
-                CanThrowedPerTurnSpell(spell) && 
+            return CanThrowedPerTurnSpell(spell) && 
                 CanThrowedTurnsBetweenThrowsSpell(spell) &&
-                m_Character.HasEnoughActionPoints(spell);
+                m_Character.HasEnoughActionPoints(spell) &&
+                IsItInTheRightState(spell);
         }
 
-        private bool IsItInTheRightState(PlayerSpellParameters spell)
+        protected virtual bool IsItInTheRightState(SpellParameters spell) { return true; }
+
+        protected bool CanLaunchSpellOnTile(SpellParameters spell, GridTile targetTile)
         {
-            return spell.m_NeedCharacterState == CharacterState.None ||
-                (m_InCreationState && spell.m_NeedCharacterState == CharacterState.Creation) || 
-                (!m_InCreationState && spell.m_NeedCharacterState == CharacterState.Destruction);
+            return m_Character.CanAttackTile(targetTile) && 
+                CanTargetingOpponentWithSpell(spell, CombatManager.Instance.GetEntityOnGridTile(targetTile));
         }
 
         private bool CanThrowedPerTurnSpell(SpellParameters spell)
@@ -159,7 +122,7 @@ namespace TBSG.Combat
             return entityNbr;
         }
 
-        private void LaunchSpell(SpellParameters spell, GridTile gridTile)
+        protected virtual void LaunchSpell(SpellParameters spell, GridTile gridTile)
         {
             switch (spell.m_AttackType)
             {
@@ -172,7 +135,6 @@ namespace TBSG.Combat
                 break;
 
                 case AttackType.StateChange:
-                    ChangeCharacterState(spell, gridTile);
                 break;
                 
                 case AttackType.Teleportation:
@@ -245,11 +207,6 @@ namespace TBSG.Combat
                 OnLaunchedSpell(spell);
             }
         }
-        private void ChangeCharacterState(SpellParameters spell, GridTile gridTile)
-        {
-            m_InCreationState =! m_InCreationState;
-            OnLaunchedSpell(spell);
-        }
         private void TeleportationSpellOnTile(SpellParameters spell, GridTile gridTile)
         {
             GridObject targetGridObject = GridManager.Instance.GetGridObjectAtPosition(gridTile.m_GridPosition);
@@ -259,7 +216,7 @@ namespace TBSG.Combat
                 m_Character.SwapPositionWithGridObject(targetGridObject);
             OnLaunchedSpell(spell);
         }
-        private void OnLaunchedSpell(SpellParameters spell)
+        protected void OnLaunchedSpell(SpellParameters spell)
         {
             m_Character.SpendActionPoints(spell.m_ActionPoints);
             m_InMovementState = true;
@@ -268,16 +225,6 @@ namespace TBSG.Combat
             AddThrowedPerTurnSpells(spell);
             AddTurnsBetweenThrowsSpell(spell);
             OnLaunchSpell?.Invoke();
-        }
-
-        private void DestroyMountainOnTile(GridTile gridTile)
-        {
-            GridObject go = GridManager.Instance.GetGridObjectAtPosition(gridTile.m_GridPosition);
-            if (go == null) return;
-            if (go.TryGetComponent(out Mountain mountain))
-            {
-                GridManager.Instance.EraseGridObjectAtPosition(gridTile.m_GridPosition);
-            }
         }
 
         private void OnCharacterReachedTargetPos()
