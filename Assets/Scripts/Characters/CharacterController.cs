@@ -206,7 +206,7 @@ namespace TBSG.Combat
         private void AddTurnsBetweenThrowsSpell(SpellParameters spell)
         {
             if (m_TurnsBetweenThrowsSpells.ContainsKey(spell))
-                m_TurnsBetweenThrowsSpells[spell] = spell.m_TurnsBetweenThrowsNbr;
+                m_TurnsBetweenThrowsSpells[spell] = spell.m_TurnsBetweenThrowsNbr + 1;
         }
         private void ResetTurnsBetweenThrowsSpell()
         {
