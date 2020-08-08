@@ -581,6 +581,9 @@ MonoBehaviour:
   m_DontDestroyOnLoad: 0
   m_ShowInstanceError: 0
   m_CharacterController: {fileID: 64473971}
+  m_Characters:
+  - {fileID: 64473971}
+  - {fileID: 1852150577}
 --- !u!4 &56632494
 Transform:
   m_ObjectHideFlags: 0
@@ -4993,6 +4996,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1839911852}
     m_Modifications:
+    - target: {fileID: 187882545760670291, guid: e5dd9e0b6895eb64480612b95885c652,
+        type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 187882545760670291, guid: e5dd9e0b6895eb64480612b95885c652,
+        type: 3}
     - target: {fileID: 7444567808573518431, guid: e5dd9e0b6895eb64480612b95885c652,
         type: 3}
       propertyPath: m_Name
@@ -5173,6 +5182,7 @@ MonoBehaviour:
   m_LifePointsTxt: {fileID: 77323841}
   m_ActionPointsTxt: {fileID: 1893570011}
   m_MovementPointsTxt: {fileID: 1680736781}
+  m_NextTurnButton: {fileID: 1516650020}
 --- !u!1 &858419550
 GameObject:
   m_ObjectHideFlags: 0
@@ -8570,18 +8580,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1516650021}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 56632493}
-        m_MethodName: TriggerNewTurn
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1516650021
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10839,6 +10838,18 @@ Transform:
   m_Father: {fileID: 761652343}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1852150577 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 187882545760670291, guid: e5dd9e0b6895eb64480612b95885c652,
+    type: 3}
+  m_PrefabInstance: {fileID: 841450062}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05ddad01d4ea92b46aedc26a47670791, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1877120137
 PrefabInstance:
   m_ObjectHideFlags: 0

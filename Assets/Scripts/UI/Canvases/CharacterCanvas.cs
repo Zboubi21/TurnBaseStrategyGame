@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.UI;
 using TBSG.Combat;
 using TMPro;
 
@@ -12,6 +13,7 @@ namespace TBSG.UI
         [SerializeField] private TextMeshProUGUI m_LifePointsTxt = null;
         [SerializeField] private TextMeshProUGUI m_ActionPointsTxt = null;
         [SerializeField] private TextMeshProUGUI m_MovementPointsTxt = null;
+        [SerializeField] private Button m_NextTurnButton = null;
 
         Character m_Character;
 
@@ -21,6 +23,7 @@ namespace TBSG.UI
             m_Character.OnLifePointsChanged += Character_OnLifePointsChanged;
             m_Character.OnActionPointsChanged += Character_OnActionPointsChanged;
             m_Character.OnMovementPointsChanged += Character_OnMovementPointsChanged;
+            m_NextTurnButton.onClick.AddListener(OnClickNextTurnButton);
             Initialize();
         }
 
@@ -47,6 +50,11 @@ namespace TBSG.UI
         public void On_ClickSpell(SpellsEnum spell)
         {
             OnClickSpell?.Invoke(spell);
+        }
+
+        private void OnClickNextTurnButton()
+        {
+            CombatManager.Instance.TriggerNextTurn();
         }
     }
 }

@@ -16,6 +16,7 @@ namespace TBSG.Combat
 
         protected bool m_InMovementState = true;
         protected SpellParameters m_CurrentSpell;
+        protected bool m_IsMyTurn = false;
 
         [Header("Debug")]
         [SerializeField] private Dictionary<SpellParameters, int> m_ThrowedPerTurnSpells = new Dictionary<SpellParameters, int>();
@@ -34,6 +35,11 @@ namespace TBSG.Combat
             ResetThrowedPerTurnSpells();
             ResetTargetOpponentsSpells();
             ResetTurnsBetweenThrowsSpell();
+            m_IsMyTurn = true;
+        }
+        public virtual void OnTurnEnd()
+        {
+            m_IsMyTurn = false;
         }
 
         protected void MoveCharacter()

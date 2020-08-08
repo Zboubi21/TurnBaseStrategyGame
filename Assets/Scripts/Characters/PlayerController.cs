@@ -22,6 +22,7 @@ namespace TBSG.Combat
 
         private void DetectMouse()
         {
+            if (!m_IsMyTurn) return;
             if (!GridManager.Instance.m_HoveredGridTile) return;
 
             if (Input.GetMouseButtonDown(0))
@@ -48,6 +49,7 @@ namespace TBSG.Combat
 
         private void SetCurrentPlayerSpell(SpellsEnum spellEnum)
         {
+            if (!m_IsMyTurn) return;
             SpellParameters spell = SpellManager.Instance.GetSpellWithSpellEnum(spellEnum);
             if (!m_Character.HasEnoughActionPoints(spell)) return;
             m_CurrentSpell = spell;
