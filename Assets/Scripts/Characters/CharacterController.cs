@@ -28,7 +28,7 @@ namespace TBSG.Combat
             m_Character = GetComponent<Character>();
         }
 
-        public void NewTurn()
+        public void StartCharacterTurn()
         {
             m_InMovementState = true;
             m_Character.NewTurn();
@@ -37,8 +37,9 @@ namespace TBSG.Combat
             ResetTurnsBetweenThrowsSpell();
             m_IsMyTurn = true;
         }
-        public virtual void OnTurnEnd()
+        public virtual void EndCharacterTurn()
         {
+            m_Character.UnHighlightTiles();
             m_IsMyTurn = false;
         }
 

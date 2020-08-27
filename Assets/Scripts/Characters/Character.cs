@@ -14,6 +14,7 @@ namespace TBSG.Combat
         
         [SerializeField] private int m_StartActionPoints = 6;
         [SerializeField] private RangeParameters m_MovementRangeParameters = null;
+        [SerializeField] private CharacterTypes m_CharacterTypes = CharacterTypes.None;
 
         private List<GridTile> m_CurrentMovementRange = new List<GridTile>();
         private List<GridTile> m_CurrentAttackRange = new List<GridTile>();
@@ -24,6 +25,7 @@ namespace TBSG.Combat
 
         public int CurrentActionPoints => m_CurrentActionPoints;
         public int CurrentMouvementPoints => m_CurrentMouvementPoints;
+        public CharacterTypes CharacterTypes => m_CharacterTypes;
 
         private void Awake()
         {
@@ -71,6 +73,11 @@ namespace TBSG.Combat
         {
             if (m_CurrentAttackRange != null && m_CurrentAttackRange.Count > 0)
                 HighlightManager.Instance.HighlighTiles(m_CurrentAttackRange, 1, unhighlightPrevious);
+        }
+
+        public void UnHighlightTiles()
+        {
+            HighlightManager.Instance.UnHighlightTiles();
         }
 
         public bool CanMoveToTile(GridTile targetTile)

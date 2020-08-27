@@ -7,7 +7,10 @@ namespace TBSG.Combat
     public class CombatManager : SingletonMonoBehaviour<CombatManager>
     {
         public static event Action OnCombatStart;
-        public static event Action OnTurnChanged;
+        public static event Action OnTurnStart;
+        public static event Action<CharacterController> OnCharacterTurnStart;
+        public static event Action<CharacterController> OnCharacterTurnEnd;
+        public static event Action OnTurnEnd;
         
         [Header("Player")]
         [SerializeField] private CharacterController m_CharacterController = null;
@@ -15,45 +18,71 @@ namespace TBSG.Combat
 
         [SerializeField] private CharacterController[] m_Characters = null;
 
-        private bool m_IsFirstCharacterTurn = true;
+        private int m_TurnCount = 1;
         private int m_CurrentCharacterTurn = 0;
 
-        protected virtual void Start()
+        private void Start()
         {
+            StartCombat();
+        }
+
+        private void StartCombat()
+        {
+            // Debug.Log("OnCombatStart");
             OnCombatStart?.Invoke();
-            NewCharacterTurn();
+            StartTurn();
         }
 
-        public void TriggerNextTurn()
+        private void StartTurn()
         {
-            NewCharacterTurn();
+            // Debug.Log("OnTurnStart");
+            OnTurnStart?.Invoke();
+            StartCharacterTurn();
         }
-        private void NewCharacterTurn()
+
+        private void StartCharacterTurn()
         {
-            if (!m_IsFirstCharacterTurn)
-            {
-                if (m_CurrentCharacterTurn - 1 >= 0)
-                    m_Characters[m_CurrentCharacterTurn - 1].OnTurnEnd();
-                else
-                    m_Characters[m_Characters.Length - 1].OnTurnEnd();
-            }
+            CharacterController cc = m_Characters[m_CurrentCharacterTurn];
+            cc.StartCharacterTurn();
+            // Debug.Log("OnCharacterTurnStart: " + cc.gameObject.name);
+            OnCharacterTurnStart?.Invoke(cc);
+        }
 
-            m_Characters[m_CurrentCharacterTurn].NewTurn();
-            m_IsFirstCharacterTurn = false;
+        public void TriggerEndCharacterTurn() => EndCharacterTurn();
 
+        private void EndCharacterTurn()
+        {
+            CharacterController cc = m_Characters[m_CurrentCharacterTurn];
+            cc.EndCharacterTurn();
+            // Debug.Log("OnCharacterTurnEnd: " + cc.gameObject.name);
+            OnCharacterTurnEnd?.Invoke(cc);
+
+            AddTurn();
+        }
+
+        private void AddTurn()
+        {
             if (m_CurrentCharacterTurn == m_Characters.Length - 1)
             {
                 m_CurrentCharacterTurn = 0;
-                NewCompleteTurn();
+                EndTurn();
             }
             else
+            {
                 m_CurrentCharacterTurn ++;
-        }
-        private void NewCompleteTurn()
-        {
-            OnTurnChanged?.Invoke();
+                StartCharacterTurn();
+            }
         }
 
+        private void EndTurn()
+        {
+            // Debug.Log("OnTurnEnd");
+            OnTurnEnd?.Invoke();
+            m_TurnCount ++;
+            StartTurn();
+        }
+
+#region Utility
         public Entity GetEntityOnGridTile(GridTile tile)
         {
             GridObject gridObject = GridManager.Instance.GetGridObjectAtPosition(tile.m_GridPosition);
@@ -61,5 +90,6 @@ namespace TBSG.Combat
                 return entity;
             return null;
         }
+#endregion
     }
 }

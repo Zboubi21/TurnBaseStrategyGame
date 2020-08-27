@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TBSG.Combat;
 using TMPro;
+using CharacterController = TBSG.Combat.CharacterController;
 
 namespace TBSG.UI
 {
@@ -16,9 +18,11 @@ namespace TBSG.UI
         [SerializeField] private Button m_NextTurnButton = null;
 
         Character m_Character;
+        List<PlayerSpellButton> m_PlayerSpellButtons = new List<PlayerSpellButton>();
 
         private void Start()
         {
+            CombatManager.OnCharacterTurnStart += CombatManager_OnCharacterTurnStart;
             m_Character = CombatManager.Instance.CharacterController.Character;
             m_Character.OnLifePointsChanged += Character_OnLifePointsChanged;
             m_Character.OnActionPointsChanged += Character_OnActionPointsChanged;
@@ -32,6 +36,18 @@ namespace TBSG.UI
             Character_OnLifePointsChanged();
             Character_OnActionPointsChanged();
             Character_OnMovementPointsChanged();
+        }
+
+        public void AddPlayerSpellButton(PlayerSpellButton playerSpellButtons)
+        {
+            m_PlayerSpellButtons.Add(playerSpellButtons);
+        }
+
+        private void CombatManager_OnCharacterTurnStart(CharacterController cc)
+        {
+            if (cc.Character.CharacterTypes == CharacterTypes.Player)
+                for (int i = 0, l = m_PlayerSpellButtons.Count; i < l; ++i)
+                    m_PlayerSpellButtons[i].UpdateUI();
         }
 
         private void Character_OnLifePointsChanged()
@@ -54,7 +70,7 @@ namespace TBSG.UI
 
         private void OnClickNextTurnButton()
         {
-            CombatManager.Instance.TriggerNextTurn();
+            CombatManager.Instance.TriggerEndCharacterTurn();
         }
     }
 }

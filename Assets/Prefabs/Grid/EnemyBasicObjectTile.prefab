@@ -299,6 +299,7 @@ MonoBehaviour:
     m_UnOccupiedTilesOnly: 1
     m_IgnoreTilesHeight: 0
     m_IncludeStartingTile: 0
+  m_CharacterTypes: 2
   m_CurrentActionPoints: 0
   m_CurrentMouvementPoints: 0
 --- !u!114 &187882545760670291

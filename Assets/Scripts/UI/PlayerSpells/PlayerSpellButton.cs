@@ -15,9 +15,9 @@ namespace TBSG.UI
         private void Start()
         {
             UpdateUI();
-            CombatManager.OnTurnChanged += UpdateUI;
             CombatManager.Instance.CharacterController.OnLaunchSpell += UpdateUI;
             m_CharacterCanvas = GetComponentInParent<CharacterCanvas>();
+            m_CharacterCanvas.AddPlayerSpellButton(this);
             m_Button.onClick.AddListener(OnClickButton);
         }
 
@@ -26,7 +26,7 @@ namespace TBSG.UI
             m_CharacterCanvas.On_ClickSpell(m_Spell);
         }
 
-        private void UpdateUI()
+        public void UpdateUI()
         {
             m_Button.interactable = IsSpellAvailable();
         }
