@@ -376,6 +376,7 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+  m_BasicSpell: 5
 --- !u!1 &7444567808955150292
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,9 +11,14 @@
     public enum SpellsEnum
     {
         None,
+
+        // Player
         StateChange,
         GodsCreation,
         MortalTouch,
         Jump,
+
+        // Enemies
+        BasicAttackCAC
     }
 }

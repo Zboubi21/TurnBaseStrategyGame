@@ -1,26 +1,37 @@
-﻿namespace TBSG.Combat
+﻿using UnityEngine;
+
+namespace TBSG.Combat
 {
     public class AIController : CharacterController
     {
+        [SerializeField] private SpellsEnum m_BasicSpell = SpellsEnum.None;
+
+        private GridObject m_TargetObject = null;
+
         public override void StartCharacterTurn()
         {
             base.StartCharacterTurn();
+            m_CurrentSpell = SpellManager.Instance.GetSpellWithSpellEnum(m_BasicSpell);
+            m_TargetObject = CombatManager.Instance.CharacterController.GetComponent<GridObject>();
             StartTurn();
         }
 
         private void StartTurn()
         {
-            // Con't show the movement range 
-            if (DeterminePath())
+            // Don't show the movement range 
+
+            if (CanLaunchSpellOnTarget(m_CurrentSpell, m_TargetObject))
+                LaunchSpellOnTarget(m_CurrentSpell, m_TargetObject);
+            else if (DeterminePath(m_TargetObject.m_GridPosition))
                 MoveToTargetPath();
             else
-                OnCharacterIsCACOfTarget();
+                TriggerEndCharacterTurn();
         }
 
-        private bool DeterminePath()
+        private bool DeterminePath(Vector2Int targetPos)
         {
             CharacterPathWalker pathWalker = m_Character.PathWalker;
-            pathWalker.DeterminePath(CombatManager.Instance.CharacterController.GetComponent<GridObject>().m_GridPosition, false);
+            pathWalker.DeterminePath(targetPos, false);
 
             if (pathWalker.m_Path.Count <= 1) return false;
 
@@ -40,11 +51,25 @@
 
         protected override void OnCharacterReachedTargetPos()
         {
-            TriggerEndCharacterTurn();
+            if (CanLaunchSpellOnTarget(m_CurrentSpell, m_TargetObject))
+                LaunchSpellOnTarget(m_CurrentSpell, m_TargetObject);
+            else
+                TriggerEndCharacterTurn();
         }
 
-        private void OnCharacterIsCACOfTarget()
+        private bool CanLaunchSpellOnTarget(SpellParameters spell, GridObject target)
         {
+            m_Character.CalculateAttackRange(spell.m_Range, false);
+
+            if (CanLaunchSpell(spell) && CanLaunchSpellOnTile(spell, target.m_CurrentGridTile))
+                return true;
+            else
+                return false;
+        }
+
+        private void LaunchSpellOnTarget(SpellParameters spell, GridObject target)
+        {
+            LaunchSpell(spell, target.m_CurrentGridTile);
             TriggerEndCharacterTurn();
         }
 
