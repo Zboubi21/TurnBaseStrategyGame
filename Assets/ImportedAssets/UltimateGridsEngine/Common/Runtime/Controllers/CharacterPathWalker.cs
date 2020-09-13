@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using NaughtyAttributes;
@@ -187,5 +186,10 @@ public class CharacterPathWalker : MonoBehaviour
                 SetPath(newPath, andMove, onReachedDestination);
             }
         }
+    }
+
+    public GridTile GetLastGridTilePath()
+    {
+        return m_Path[m_Path.Count - 1];
     }
 }

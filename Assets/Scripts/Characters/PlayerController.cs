@@ -34,7 +34,7 @@ namespace TBSG.Combat
         private void DoMainAction()
         {
             if (m_InMovementState)
-                MoveCharacter();
+                MoveCharacter(GridManager.Instance.m_HoveredGridTile);
             else
                 if (CanLaunchSpell(m_CurrentSpell) && CanLaunchSpellOnTile(m_CurrentSpell, GridManager.Instance.m_HoveredGridTile))
                     LaunchSpell(m_CurrentSpell, GridManager.Instance.m_HoveredGridTile);

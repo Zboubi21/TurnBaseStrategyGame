@@ -28,7 +28,7 @@ namespace TBSG.Combat
             m_Character = GetComponent<Character>();
         }
 
-        public void StartCharacterTurn()
+        public virtual void StartCharacterTurn()
         {
             m_InMovementState = true;
             m_Character.NewTurn();
@@ -43,10 +43,10 @@ namespace TBSG.Combat
             m_IsMyTurn = false;
         }
 
-        protected void MoveCharacter()
+        protected void MoveCharacter(GridTile targetTile)
         {
-            if (m_Character.CanMoveToTile(GridManager.Instance.m_HoveredGridTile))
-                m_Character.MoveToTile(GridManager.Instance.m_HoveredGridTile, OnCharacterReachedTargetPos); 
+            if (m_Character.CanMoveToTile(targetTile))
+                m_Character.MoveToTile(targetTile, OnCharacterReachedTargetPos); 
         }
 
         public virtual bool CanLaunchSpell(SpellParameters spell)
@@ -234,7 +234,7 @@ namespace TBSG.Combat
             OnLaunchSpell?.Invoke();
         }
 
-        private void OnCharacterReachedTargetPos()
+        protected virtual void OnCharacterReachedTargetPos()
         {
             m_Character.CalculateMovementRange(true);
         }

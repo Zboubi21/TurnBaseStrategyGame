@@ -26,6 +26,7 @@ namespace TBSG.Combat
         public int CurrentActionPoints => m_CurrentActionPoints;
         public int CurrentMouvementPoints => m_CurrentMouvementPoints;
         public CharacterTypes CharacterTypes => m_CharacterTypes;
+        public CharacterPathWalker PathWalker => m_PathWalker;
 
         private void Awake()
         {
