@@ -9,6 +9,8 @@ namespace TBSG.Combat
     [RequireComponent(typeof(GridMovement))]
     public class Character : Entity
     {
+        public static event Action<Character> OnCharacterDie;
+
         public event Action OnActionPointsChanged;
         public event Action OnMovementPointsChanged;
         
@@ -130,6 +132,12 @@ namespace TBSG.Combat
         {
             Setup();
             CalculateMovementRange(true);
+        }
+
+        protected override void OnTriggerDie()
+        {
+            base.OnTriggerDie();
+            OnCharacterDie?.Invoke(this);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using GameDevStack.Patterns;
 
@@ -11,12 +12,16 @@ namespace TBSG.Combat
         public static event Action<CharacterController> OnCharacterTurnStart;
         public static event Action<CharacterController> OnCharacterTurnEnd;
         public static event Action OnTurnEnd;
+        public static event Action OnWinCombat;
+        public static event Action OnLoseCombat;
         
         [Header("Player")]
         [SerializeField] private CharacterController m_CharacterController = null;
-        public CharacterController CharacterController => m_CharacterController;
 
-        [SerializeField] private CharacterController[] m_Characters = null;
+        [Header("Characters")]
+        [SerializeField] private List<CharacterController> m_Characters = new List<CharacterController>();
+
+        public CharacterController CharacterController => m_CharacterController;
 
         private int m_TurnCount = 1;
         private int m_CurrentCharacterTurn = 0;
@@ -29,6 +34,7 @@ namespace TBSG.Combat
         private void StartCombat()
         {
             // Debug.Log("OnCombatStart");
+            Character.OnCharacterDie += Character_OnCharacterDie;
             OnCombatStart?.Invoke();
             StartTurn();
         }
@@ -62,7 +68,7 @@ namespace TBSG.Combat
 
         private void AddTurn()
         {
-            if (m_CurrentCharacterTurn == m_Characters.Length - 1)
+            if (m_CurrentCharacterTurn == m_Characters.Count - 1)
             {
                 m_CurrentCharacterTurn = 0;
                 EndTurn();
@@ -80,6 +86,51 @@ namespace TBSG.Combat
             OnTurnEnd?.Invoke();
             m_TurnCount ++;
             StartTurn();
+        }
+
+        private void Character_OnCharacterDie(Character character)
+        {
+            for (int i = 0, l = m_Characters.Count; i < l; ++i)
+            {
+                if (m_Characters[i].Character == character)
+                {
+                    CharacterController deadCharacter = m_Characters[i];
+                    m_Characters.RemoveAt(i);
+                    CheckEndCombat(deadCharacter);
+                    return;
+                }
+            }
+        }
+
+        private void CheckEndCombat(CharacterController deadCharacter)
+        {
+            if (deadCharacter == m_CharacterController)
+            {
+                OnLose();
+            }
+            else if (m_Characters.Count == 1)
+            {
+                OnWin();
+            }
+        }
+
+        private void OnWin()
+        {
+            Debug.Log("WIN");
+            EndCombat();
+            OnWinCombat?.Invoke();
+        }
+
+        private void OnLose()
+        {
+            Debug.Log("Lose");
+            EndCombat();
+            OnLoseCombat?.Invoke();
+        }
+
+        private void EndCombat()
+        {
+            Character.OnCharacterDie -= Character_OnCharacterDie;
         }
 
 #region Utility

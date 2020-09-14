@@ -6,7 +6,7 @@ namespace TBSG.Combat
     public class Entity : MonoBehaviour
     {
         public event Action OnLifePointsChanged;
-        public event Action OnEntityDie;
+        public static event Action<Entity> OnEntityDie;
 
         [SerializeField] private int m_StartLifePoints = 1;
         
@@ -27,11 +27,15 @@ namespace TBSG.Combat
                 OnDie();
         }
 
-        private void OnDie()
+        protected virtual void OnDie()
         {
-            OnEntityDie?.Invoke();
+            OnTriggerDie();
             Destroy(gameObject);
         }
 
+        protected virtual void OnTriggerDie()
+        {
+            OnEntityDie?.Invoke(this);
+        }
     }
 }
