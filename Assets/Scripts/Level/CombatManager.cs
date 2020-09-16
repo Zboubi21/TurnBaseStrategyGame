@@ -12,8 +12,7 @@ namespace TBSG.Combat
         public static event Action<CharacterController> OnCharacterTurnStart;
         public static event Action<CharacterController> OnCharacterTurnEnd;
         public static event Action OnTurnEnd;
-        public static event Action OnWinCombat;
-        public static event Action OnLoseCombat;
+        public static event Action<bool> OnCombatEnd;
         
         [Header("Player")]
         [SerializeField] private CharacterController m_CharacterController = null;
@@ -30,6 +29,8 @@ namespace TBSG.Combat
         {
             StartCombat();
         }
+
+        // Add delay to transition combat states
 
         private void StartCombat()
         {
@@ -116,16 +117,16 @@ namespace TBSG.Combat
 
         private void OnWin()
         {
-            Debug.Log("WIN");
+            // Debug.Log("WIN");
             EndCombat();
-            OnWinCombat?.Invoke();
+            OnCombatEnd?.Invoke(true);
         }
 
         private void OnLose()
         {
-            Debug.Log("Lose");
+            // Debug.Log("Lose");
             EndCombat();
-            OnLoseCombat?.Invoke();
+            OnCombatEnd?.Invoke(false);
         }
 
         private void EndCombat()

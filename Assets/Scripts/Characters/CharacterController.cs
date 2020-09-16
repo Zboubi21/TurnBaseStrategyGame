@@ -26,6 +26,7 @@ namespace TBSG.Combat
         protected virtual void Awake()
         {
             m_Character = GetComponent<Character>();
+            CombatManager.OnCombatEnd += OnCombatEnd;
         }
 
         public virtual void StartCharacterTurn()
@@ -41,6 +42,12 @@ namespace TBSG.Combat
         {
             m_Character.UnHighlightTiles();
             m_IsMyTurn = false;
+        }
+
+        private void OnCombatEnd(bool win)
+        {
+            if (win && m_IsMyTurn)
+                EndCharacterTurn();
         }
 
         protected void MoveCharacter(GridTile targetTile)

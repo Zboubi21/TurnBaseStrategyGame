@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/ImportedAssets/UltimateGridsEngine/Demos/Tactics/Tactics-Demo.unity
-    guid: 14723b315a50d464e83bda2bd21bdd86
+    path: Assets/Scenes/MainMenu.unity
+    guid: 41b9fad51996e244ea1964284ebad5bd
+  - enabled: 1
+    path: Assets/Scenes/Prototype.unity
+    guid: c0d6919aace7c6b439c2aeec7f10752f
   m_configObjects: {}
