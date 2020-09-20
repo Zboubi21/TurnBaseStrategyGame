@@ -580,7 +580,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_DontDestroyOnLoad: 0
   m_ShowInstanceError: 0
-  m_CharacterController: {fileID: 64473971}
+  m_PlayerController: {fileID: 64473971}
   m_Characters:
   - {fileID: 64473971}
   - {fileID: 1852150577}
@@ -13326,6 +13326,7 @@ GameObject:
   - component: {fileID: 2117431212}
   - component: {fileID: 2117431213}
   - component: {fileID: 2117431214}
+  - component: {fileID: 2117431215}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -13373,6 +13374,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fd73ce908eb93b4aa41413b26e91de6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2117431215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2117431211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a682112b0b3f3d34e84a0ea84f07fe3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_DontDestroyOnLoad: 0
+  m_ShowInstanceError: 0
 --- !u!1001 &2138039767
 PrefabInstance:
   m_ObjectHideFlags: 0

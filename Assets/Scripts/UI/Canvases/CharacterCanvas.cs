@@ -23,7 +23,7 @@ namespace TBSG.UI
         private void Start()
         {
             CombatManager.OnCharacterTurnStart += CombatManager_OnCharacterTurnStart;
-            m_Character = CombatManager.Instance.CharacterController.Character;
+            m_Character = CombatManager.Instance.PlayerController.Character;
             m_Character.OnLifePointsChanged += Character_OnLifePointsChanged;
             m_Character.OnActionPointsChanged += Character_OnActionPointsChanged;
             m_Character.OnMovementPointsChanged += Character_OnMovementPointsChanged;
@@ -52,15 +52,15 @@ namespace TBSG.UI
 
         private void Character_OnLifePointsChanged()
         {
-            m_LifePointsTxt.text = CombatManager.Instance.CharacterController.Character.CurrentLifePoints.ToString();
+            m_LifePointsTxt.text = CombatManager.Instance.PlayerController.Character.CurrentLifePoints.ToString();
         }
         private void Character_OnActionPointsChanged()
         {
-            m_ActionPointsTxt.text = CombatManager.Instance.CharacterController.Character.CurrentActionPoints.ToString();
+            m_ActionPointsTxt.text = CombatManager.Instance.PlayerController.Character.CurrentActionPoints.ToString();
         }
         private void Character_OnMovementPointsChanged()
         {
-            m_MovementPointsTxt.text = CombatManager.Instance.CharacterController.Character.CurrentMouvementPoints.ToString();
+            m_MovementPointsTxt.text = CombatManager.Instance.PlayerController.Character.CurrentMouvementPoints.ToString();
         }
 
         public void On_ClickSpell(SpellsEnum spell)
@@ -70,7 +70,7 @@ namespace TBSG.UI
 
         private void OnClickNextTurnButton()
         {
-            CombatManager.Instance.TriggerEndCharacterTurn();
+            CombatManager.Instance.TriggerEndPlayerCharacterTurn();
         }
     }
 }

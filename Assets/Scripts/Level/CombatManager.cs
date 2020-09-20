@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using GameDevStack.Patterns;
+using GameDevStack.Programming;
 
 namespace TBSG.Combat
 {
@@ -15,19 +16,21 @@ namespace TBSG.Combat
         public static event Action<bool> OnCombatEnd;
         
         [Header("Player")]
-        [SerializeField] private CharacterController m_CharacterController = null;
+        [SerializeField] private CharacterController m_PlayerController = null;
 
         [Header("Characters")]
         [SerializeField] private List<CharacterController> m_Characters = new List<CharacterController>();
 
-        public CharacterController CharacterController => m_CharacterController;
+        public CharacterController PlayerController => m_PlayerController;
 
         private int m_TurnCount = 1;
         private int m_CurrentCharacterTurn = 0;
+        private bool m_CombatIsRunning = false;
 
         private void Start()
         {
-            StartCombat();
+            // StartCombat();
+            Coroutines.InvokeWithDelay(StartCombat, 3);
         }
 
         // Add delay to transition combat states
@@ -37,6 +40,7 @@ namespace TBSG.Combat
             // Debug.Log("OnCombatStart");
             Character.OnCharacterDie += Character_OnCharacterDie;
             OnCombatStart?.Invoke();
+            m_CombatIsRunning = true;
             StartTurn();
         }
 
@@ -55,11 +59,14 @@ namespace TBSG.Combat
             OnCharacterTurnStart?.Invoke(cc);
         }
 
-        public void TriggerEndCharacterTurn() => EndCharacterTurn();
+        public void TriggerEndPlayerCharacterTurn() => EndCharacterTurn(m_PlayerController);
+        public void TriggerEndCharacterTurn(CharacterController characterEndTurn) => EndCharacterTurn(characterEndTurn);
 
-        private void EndCharacterTurn()
+        private void EndCharacterTurn(CharacterController characterEndTurn)
         {
+            if (!m_CombatIsRunning) return;
             CharacterController cc = m_Characters[m_CurrentCharacterTurn];
+            if (characterEndTurn != cc) return;
             cc.EndCharacterTurn();
             // Debug.Log("OnCharacterTurnEnd: " + cc.gameObject.name);
             OnCharacterTurnEnd?.Invoke(cc);
@@ -105,7 +112,7 @@ namespace TBSG.Combat
 
         private void CheckEndCombat(CharacterController deadCharacter)
         {
-            if (deadCharacter == m_CharacterController)
+            if (deadCharacter == m_PlayerController)
             {
                 OnLose();
             }
@@ -132,6 +139,7 @@ namespace TBSG.Combat
         private void EndCombat()
         {
             Character.OnCharacterDie -= Character_OnCharacterDie;
+            m_CombatIsRunning = false;
         }
 
 #region Utility

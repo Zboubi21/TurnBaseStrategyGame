@@ -12,7 +12,7 @@ namespace TBSG.Combat
         {
             base.StartCharacterTurn();
             m_CurrentSpell = SpellManager.Instance.GetSpellWithSpellEnum(m_BasicSpell);
-            m_TargetObject = CombatManager.Instance.CharacterController.GetComponent<GridObject>();
+            m_TargetObject = CombatManager.Instance.PlayerController.GetComponent<GridObject>();
             StartTurn();
         }
 
@@ -75,7 +75,7 @@ namespace TBSG.Combat
 
         private void TriggerEndCharacterTurn()
         {
-            CombatManager.Instance.TriggerEndCharacterTurn();
+            CombatManager.Instance.TriggerEndCharacterTurn(this);
         }
     }
 }

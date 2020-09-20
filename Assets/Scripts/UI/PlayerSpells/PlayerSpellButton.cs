@@ -15,7 +15,7 @@ namespace TBSG.UI
         private void Start()
         {
             UpdateUI();
-            CombatManager.Instance.CharacterController.OnLaunchSpell += UpdateUI;
+            CombatManager.Instance.PlayerController.OnLaunchSpell += UpdateUI;
             m_CharacterCanvas = GetComponentInParent<CharacterCanvas>();
             m_CharacterCanvas.AddPlayerSpellButton(this);
             m_Button.onClick.AddListener(OnClickButton);
@@ -34,7 +34,7 @@ namespace TBSG.UI
         private bool IsSpellAvailable()
         {
             SpellParameters spell = SpellManager.Instance.GetSpellWithSpellEnum(m_Spell);
-            return CombatManager.Instance.CharacterController.CanLaunchSpell(spell);
+            return CombatManager.Instance.PlayerController.CanLaunchSpell(spell);
         }
     }
 }
