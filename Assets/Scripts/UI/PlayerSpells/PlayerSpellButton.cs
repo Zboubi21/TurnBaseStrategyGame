@@ -10,7 +10,6 @@ namespace TBSG.UI
         [SerializeField] private Button m_Button = null;
 
         private CharacterCanvas m_CharacterCanvas;
-        private SpellParameters m_PlayerSpellParameters;
 
         private void Start()
         {
