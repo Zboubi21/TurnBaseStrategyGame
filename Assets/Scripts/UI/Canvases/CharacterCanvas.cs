@@ -22,12 +22,14 @@ namespace TBSG.UI
 
         private void Start()
         {
-            CombatManager.OnCharacterTurnStart += CombatManager_OnCharacterTurnStart;
             m_Character = CombatManager.Instance.PlayerController.Character;
+
+            CombatManager.OnCharacterTurnStart += CombatManager_OnCharacterTurnStart;
             m_Character.OnLifePointsChanged += Character_OnLifePointsChanged;
             m_Character.OnActionPointsChanged += Character_OnActionPointsChanged;
             m_Character.OnMovementPointsChanged += Character_OnMovementPointsChanged;
             m_NextTurnButton.onClick.AddListener(OnClickNextTurnButton);
+
             Initialize();
         }
 
@@ -71,6 +73,15 @@ namespace TBSG.UI
         private void OnClickNextTurnButton()
         {
             CombatManager.Instance.TriggerEndPlayerCharacterTurn();
+        }
+
+        private void OnDestroy()
+        {
+            CombatManager.OnCharacterTurnStart -= CombatManager_OnCharacterTurnStart;
+            m_Character.OnLifePointsChanged -= Character_OnLifePointsChanged;
+            m_Character.OnActionPointsChanged -= Character_OnActionPointsChanged;
+            m_Character.OnMovementPointsChanged -= Character_OnMovementPointsChanged;
+            m_NextTurnButton.onClick.RemoveListener(OnClickNextTurnButton);
         }
     }
 }

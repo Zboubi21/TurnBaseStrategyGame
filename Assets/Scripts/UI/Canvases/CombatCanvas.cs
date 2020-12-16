@@ -30,5 +30,10 @@ namespace TBSG.UI
         {
             m_LoseCanvas.SetActive(true);
         }
+
+        private void OnDestroy()
+        {
+            CombatManager.OnCombatEnd -= CombatManager_OnCombatEnd;
+        }
     }
 }
