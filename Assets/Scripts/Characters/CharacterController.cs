@@ -233,12 +233,20 @@ namespace TBSG.Combat
         protected void OnLaunchedSpell(SpellParameters spell)
         {
             m_Character.SpendActionPoints(spell.m_ActionPoints);
-            m_InMovementState = true;
-            m_Character.ClearAttackRange();
-            m_Character.CalculateMovementRange(true);
+
+            OnResetSpell();
+
             AddThrowedPerTurnSpells(spell);
             AddTurnsBetweenThrowsSpell(spell);
             OnLaunchSpell?.Invoke();
+        }
+
+        protected void OnResetSpell()
+        {
+            m_InMovementState = true;
+            m_Character.ClearAttackRange();
+            m_Character.CalculateMovementRange(true);
+            m_CurrentSpell = null;
         }
 
         protected virtual void OnCharacterReachedTargetPos()

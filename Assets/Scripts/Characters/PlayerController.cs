@@ -13,31 +13,36 @@ namespace TBSG.Combat
         {
             base.Awake();
             CharacterCanvas.OnClickSpell += SetCurrentPlayerSpell;
+            InputManager.OnPressLeftMouseButton += InputManager_OnPressLeftMouseButton;
+            InputManager.OnPressMiddleMouseButton += InputManager_OnPressMiddleMouseButton;
         }
 
-        private void Update()
-        {
-            DetectMouse(); 
-        }
-
-        private void DetectMouse()
+        private void InputManager_OnPressLeftMouseButton()
         {
             if (!m_IsMyTurn) return;
-            if (!GridManager.Instance.m_HoveredGridTile) return;
-
-            if (Input.GetMouseButtonDown(0))
-                DoMainAction();
-            if (Input.GetMouseButtonDown(2))
-                DestroyMountainOnTile(GridManager.Instance.m_HoveredGridTile);
+            GridTile hoveredGridTile = GridManager.Instance.m_HoveredGridTile;
+            DoMainAction(hoveredGridTile);
         }
 
-        private void DoMainAction()
+        private void InputManager_OnPressMiddleMouseButton()
         {
-            if (m_InMovementState)
-                MoveCharacter(GridManager.Instance.m_HoveredGridTile);
+            if (!m_IsMyTurn) return;
+            GridTile hoveredGridTile = GridManager.Instance.m_HoveredGridTile;
+            if (hoveredGridTile)
+                DestroyMountainOnTile(hoveredGridTile);
+        }
+
+        private void DoMainAction(GridTile hoveredGridTile)
+        {
+            if (m_InMovementState && hoveredGridTile)
+                MoveCharacter(hoveredGridTile);
             else
-                if (CanLaunchSpell(m_CurrentSpell) && CanLaunchSpellOnTile(m_CurrentSpell, GridManager.Instance.m_HoveredGridTile))
-                    LaunchSpell(m_CurrentSpell, GridManager.Instance.m_HoveredGridTile);
+            {
+                if (hoveredGridTile == null || !CanLaunchSpellOnTile(m_CurrentSpell, GridManager.Instance.m_HoveredGridTile))
+                    OnResetSpell();
+                else if (CanLaunchSpell(m_CurrentSpell) && CanLaunchSpellOnTile(m_CurrentSpell, hoveredGridTile))
+                    LaunchSpell(m_CurrentSpell, hoveredGridTile);
+            }
         }
 
         protected override bool IsItInTheRightState(SpellParameters spell)

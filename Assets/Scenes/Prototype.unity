@@ -576,7 +576,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -5937,12 +5937,12 @@ Transform:
   - {fileID: 1394152069}
   - {fileID: 1251670423}
   - {fileID: 1682050744}
-  - {fileID: 920280548}
-  - {fileID: 295542097}
   - {fileID: 1923667685}
   - {fileID: 328175963}
   - {fileID: 1192250902}
+  - {fileID: 920280548}
   - {fileID: 1357779352}
+  - {fileID: 295542097}
   - {fileID: 597919483}
   - {fileID: 1508433366}
   m_Father: {fileID: 761652343}
@@ -10072,7 +10072,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -11647,7 +11647,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
