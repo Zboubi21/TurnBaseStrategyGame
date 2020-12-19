@@ -15,7 +15,7 @@ namespace TBSG.Combat
         public GameObject m_ObjectToSpawn = null;
         public RangeParameters m_Range = null;
         // public bool m_NeedLineOfSights = false;
-        public bool m_ThrowInStraightLine = false;
+        // public bool m_ThrowInStraightLine = false;
         [Range(0, 2)] public int m_NeedState = 0;
     }
 }

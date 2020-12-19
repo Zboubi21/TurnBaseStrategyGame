@@ -26,9 +26,9 @@ MonoBehaviour:
     m_SquareRange: 0
     m_MinReach: 2
     m_MaxReach: 3
-    m_WalkableTilesOnly: 1
+    m_WalkableTiles: 1
+    m_FlyableTiles: 0
     m_UnOccupiedTilesOnly: 0
-    m_IgnoreTilesHeight: 1
+    m_IgnoreTilesHeight: 0
     m_IncludeStartingTile: 0
-  m_ThrowInStraightLine: 0
   m_NeedState: 1

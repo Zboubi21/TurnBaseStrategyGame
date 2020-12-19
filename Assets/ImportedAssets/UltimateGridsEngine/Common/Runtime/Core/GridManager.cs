@@ -89,9 +89,6 @@ public class GridManager : MonoBehaviour
             case NeighboringTypes.Rect8Directions:
                 gridPositions = defaultRectangle8Directions;
                 break;
-            case NeighboringTypes.HexagonDefault:
-                gridPositions = oddRow ? defaultOddHexagonalDirections : defaultEvenHexagonalDirections;
-                break;
             case NeighboringTypes.Custom:
                 gridPositions = m_CustomNeighbors;
                 break;
@@ -251,24 +248,6 @@ public class GridManager : MonoBehaviour
         new Vector2Int(-1, 1) // top-left     
     };
 
-    public static List<Vector2Int> defaultEvenHexagonalDirections = new List<Vector2Int>() {
-        new Vector2Int(0, 1),// top-right
-        new Vector2Int(1, 0),// right
-        new Vector2Int(0, -1), // bottom-right
-        new Vector2Int(-1, -1),// bottom-left
-        new Vector2Int(-1, 0), // left
-        new Vector2Int(-1, 1) // top-left 
-    };
-
-    public static List<Vector2Int> defaultOddHexagonalDirections = new List<Vector2Int>() {
-        new Vector2Int(1, 1), // top-right
-        new Vector2Int(1, 0), // right
-        new Vector2Int(1, -1), // bottom-right
-        new Vector2Int(0, -1), // bottom-left
-        new Vector2Int(-1, 0), // left
-        new Vector2Int(0, 1), // top-left 
-    };
-
     public static List<string> Rectangle8DirOrientationsList = new List<string>() {
         "North",
         "NorthEast",
@@ -285,15 +264,6 @@ public class GridManager : MonoBehaviour
         Rectangle8DirOrientationsList[2],
         Rectangle8DirOrientationsList[4],
         Rectangle8DirOrientationsList[6],
-    };
-
-    public static List<string> HexagonDirOrientationsList = new List<string>() {
-        Rectangle8DirOrientationsList[1],
-        Rectangle8DirOrientationsList[2],
-        Rectangle8DirOrientationsList[3],
-        Rectangle8DirOrientationsList[5],
-        Rectangle8DirOrientationsList[6],
-        Rectangle8DirOrientationsList[7]
     };
 
     public Vector2Int GetRelativeNeighborPositionFromOrientation(string orientation, bool oddRow = false)
@@ -314,14 +284,6 @@ public class GridManager : MonoBehaviour
                 return GetNeighborPositions()[Rectangle4DirOrientationsList.IndexOf(orientation)];
             case NeighboringTypes.Rect8Directions:
                 return GetNeighborPositions()[Rectangle8DirOrientationsList.IndexOf(orientation)];
-            case NeighboringTypes.HexagonDefault:
-                if (!HexagonDirOrientationsList.Contains(orientation))
-                {
-                    var index = Rectangle8DirOrientationsList.IndexOf(orientation);
-                    index++;
-                    orientation = Rectangle8DirOrientationsList[index];
-                }
-                return GetNeighborPositions(oddRow)[HexagonDirOrientationsList.IndexOf(orientation)];
         }
     }
 
@@ -369,7 +331,8 @@ public class GridManager : MonoBehaviour
         return null;
     }
 
-    // Returns a list with the neighbors of the tile
+    // Returns a list with the neighbors of the tile with a walkable path
+    // Useful for movements
     public virtual List<GridTile> WalkableNeighbors(GridTile gridTile, bool ignoresHeight = false, bool unoccupiedTilesOnly = true, GridTile goalTile = null, bool canFly = false, List<Vector2Int> customDirections = null)
     {
         List<GridTile> results = new List<GridTile>();
@@ -423,8 +386,9 @@ public class GridManager : MonoBehaviour
         results.Distinct();
         return results;
     }
-
-    public virtual List<GridTile> Neighbors(GridTile gridTile, bool ignoresHeight = false, List<Vector2Int> customDirections = null)
+    
+    // Useful for spells
+    public virtual List<GridTile> Neighbors(GridTile gridTile, List<Vector2Int> customDirections = null)
     {
         List<GridTile> results = new List<GridTile>();
         var directions = customDirections != null ? customDirections : GetNeighborPositions((gridTile.m_GridPosition.y & 1) == 1); ;

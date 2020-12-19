@@ -4,5 +4,5 @@ using UnityEngine;
 
 public enum NeighboringTypes
 {
-    Rect4Directions, Rect8Directions, HexagonDefault, Custom
+    Rect4Directions, Rect8Directions, Custom
 }
