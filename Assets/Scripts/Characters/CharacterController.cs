@@ -23,6 +23,11 @@ namespace TBSG.Combat
         [SerializeField] private Dictionary<SpellParameters, List<Entity>> m_TargetingPerOpponentSpells = new Dictionary<SpellParameters, List<Entity>>();
         [SerializeField] private Dictionary<SpellParameters, int> m_TurnsBetweenThrowsSpells = new Dictionary<SpellParameters, int>();
 
+        // Getters
+        public Dictionary<SpellParameters, int> ThrowedPerTurnSpells => m_ThrowedPerTurnSpells;
+        public Dictionary<SpellParameters, List<Entity>> TargetingPerOpponentSpells => m_TargetingPerOpponentSpells;
+        public Dictionary<SpellParameters, int> TurnsBetweenThrowsSpells => m_TurnsBetweenThrowsSpells;
+
         protected virtual void Awake()
         {
             m_Character = GetComponent<Character>();

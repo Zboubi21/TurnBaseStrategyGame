@@ -1,6 +1,8 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 using TBSG.Combat;
+using TMPro;
 
 namespace TBSG.UI
 {
@@ -8,6 +10,12 @@ namespace TBSG.UI
     {
         [SerializeField] private SpellsEnum m_Spell = 0;
         [SerializeField] private Button m_Button = null;
+        [Header("Cooldown")]
+        [SerializeField] private GameObject m_CooldownObject = null;
+        [SerializeField] private TextMeshProUGUI m_CooldownTxt = null;
+        [Header("Possible Use")]
+        [SerializeField] private GameObject m_PossibleUseObject = null;
+        [SerializeField] private TextMeshProUGUI m_PossibleUseTxt = null;
 
         private CharacterCanvas m_CharacterCanvas;
 
@@ -29,13 +37,30 @@ namespace TBSG.UI
 
         public void UpdateUI()
         {
-            m_Button.interactable = IsSpellAvailable();
+            SpellParameters spell = SpellManager.Instance.GetSpellWithSpellEnum(m_Spell);
+            m_Button.interactable = IsSpellAvailable(spell);
+            UpdateCooldownSpells(spell);
         }
 
-        private bool IsSpellAvailable()
+        private bool IsSpellAvailable(SpellParameters spell)
         {
-            SpellParameters spell = SpellManager.Instance.GetSpellWithSpellEnum(m_Spell);
             return CombatManager.Instance.PlayerController.CanLaunchSpell(spell);
+        }
+
+        private void UpdateCooldownSpells(SpellParameters spell)
+        {
+            Dictionary<SpellParameters, int> cooldownDict = CombatManager.Instance.PlayerController.TurnsBetweenThrowsSpells;
+            if (cooldownDict.ContainsKey(spell) && cooldownDict[spell] != 0)
+            {
+                if (!m_CooldownObject.activeSelf)
+                    m_CooldownObject.SetActive(true);
+                m_CooldownTxt.text = cooldownDict[spell].ToString();
+            }
+            else
+            {
+                if (m_CooldownObject.activeSelf)
+                    m_CooldownObject.SetActive(false);
+            }
         }
 
         private void OnDestroy()
