@@ -56,13 +56,13 @@ namespace TBSG.Combat
             if (m_CurrentMouvementPoints <= 0) return;
             RangeParameters rangeParam = new RangeParameters(m_MovementRangeParameters);
             rangeParam.MaxReach = m_CurrentMouvementPoints;
-            m_CurrentMovementRange = RangeAlgorithms.SearchMovement(m_GridObject.m_CurrentGridTile, rangeParam, m_PathWalker.m_CanFly);
+            m_CurrentMovementRange = RangeAlgorithms.SearchByMovement(m_GridObject.m_CurrentGridTile, rangeParam, m_PathWalker.m_CanFly);
             if (andHighlight)
                 HighlightMovementRange(true);
         }
         public void CalculateAttackRange(Spell spell, bool andHighlight = false)
         {
-            m_CurrentAttackRange = RangeAlgorithms.SearchSpell(m_GridObject.m_CurrentGridTile, spell.Range, spell.SpellParameters);
+            m_CurrentAttackRange = RangeAlgorithms.SearchBySpell(m_GridObject.m_CurrentGridTile, spell.Range, spell.SpellParameters);
             if (andHighlight)
                 HighlightAttackRange(true);
         }

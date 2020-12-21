@@ -14,6 +14,7 @@ public class SpellParameters
     [SerializeField] private bool m_WalkableTiles = true;
     [SerializeField] private bool m_FlyableTiles = false;
     [SerializeField] private bool m_InStraightLine = false;
+    [SerializeField] private bool m_CanTargetMountain = false;
 
     // Getters
     public int ActionPoints => m_ActionPoints;
@@ -25,4 +26,5 @@ public class SpellParameters
     public bool WalkableTiles => m_WalkableTiles;
     public bool FlyableTiles => m_FlyableTiles;
     public bool InStraightLine => m_InStraightLine;
+    public bool CanTargetMountain => m_CanTargetMountain;
 }

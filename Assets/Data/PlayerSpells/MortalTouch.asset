@@ -22,9 +22,10 @@ MonoBehaviour:
     m_TargetingPerOpponentNbr: 0
     m_TurnsBetweenThrowsNbr: 1
     m_ObjectToSpawn: {fileID: 0}
-    m_InStraightLine: 0
     m_WalkableTiles: 1
     m_FlyableTiles: 1
+    m_InStraightLine: 0
+    m_CanTargetMountain: 0
   m_Range:
     m_RangeSearchType: 0
     m_SquareRange: 0

@@ -25,6 +25,7 @@ MonoBehaviour:
     m_WalkableTiles: 1
     m_FlyableTiles: 0
     m_InStraightLine: 0
+    m_CanTargetMountain: 1
   m_Range:
     m_RangeSearchType: 0
     m_SquareRange: 0

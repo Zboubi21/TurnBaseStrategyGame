@@ -40,7 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3063526555832202308}
-  - component: {fileID: 3063526555832202309}
+  - component: {fileID: 2943642423908835050}
   - component: {fileID: 3063526555832202330}
   - component: {fileID: 7593598407250385739}
   m_Layer: 0
@@ -65,7 +65,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3063526555832202309
+--- !u!114 &2943642423908835050
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -74,7 +74,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3063526555832202331}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d93a95a66d80ffe4a9b3b00686bb0d05, type: 3}
+  m_Script: {fileID: 11500000, guid: 0112661712e46ca40b6337e36d1a1bc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_GridPosition: {x: 0, y: 0}
@@ -151,6 +151,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2414371699130177246, guid: 3ef95ae617afaa541a3b698e6098288e,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2414371699130177246, guid: 3ef95ae617afaa541a3b698e6098288e,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -166,6 +171,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2414371699130177246, guid: 3ef95ae617afaa541a3b698e6098288e,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2414371699130177246, guid: 3ef95ae617afaa541a3b698e6098288e,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -178,16 +188,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2414371699130177246, guid: 3ef95ae617afaa541a3b698e6098288e,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2414371699130177246, guid: 3ef95ae617afaa541a3b698e6098288e,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2414371699130177246, guid: 3ef95ae617afaa541a3b698e6098288e,
         type: 3}

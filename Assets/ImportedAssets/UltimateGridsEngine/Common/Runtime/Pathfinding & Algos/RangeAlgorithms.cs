@@ -17,18 +17,19 @@ public static class RangeAlgorithms
         return null;
     }
 
-    public static List<GridTile> SearchSpell(GridTile start, RangeParameters rangeParameters, SpellParameters spellParameters)
+    public static List<GridTile> SearchBySpell(GridTile start, RangeParameters rangeParameters, SpellParameters spellParameters)
     {
-        return RangeAlgorithms.SearchByGridPosition(start, rangeParameters.MaxReach, spellParameters.WalkableTiles, spellParameters.FlyableTiles, rangeParameters.UnOccupiedTilesOnly, rangeParameters.SquareRange, rangeParameters.IgnoreTilesHeight, rangeParameters.IncludeStartingTile, rangeParameters.MinReach, spellParameters.InStraightLine);
-    }
+        int minReach = rangeParameters.MinReach;
+        int maxReach = rangeParameters.MaxReach;
+        bool unoccupiedTilesOnly = rangeParameters.UnOccupiedTilesOnly;
+        bool square = rangeParameters.SquareRange;
+        bool includeStartingTile = rangeParameters.IncludeStartingTile;
 
-    public static List<GridTile> SearchMovement(GridTile start, RangeParameters rangeParameters, bool canFly)
-    {
-        return RangeAlgorithms.SearchByMovement(start, rangeParameters.MaxReach, rangeParameters.IgnoreTilesHeight, rangeParameters.IncludeStartingTile, rangeParameters.MinReach, canFly);
-    }
+        bool walkableTiles = spellParameters.WalkableTiles;
+        bool flyableTiles = spellParameters.FlyableTiles;
+        bool inStraightLine = spellParameters.InStraightLine;
+        bool canTargetMountain = spellParameters.CanTargetMountain;
 
-    private static List<GridTile> SearchByGridPosition(GridTile start, int maxReach, bool walkableTiles = true, bool flyableTiles = false, bool unoccupiedTilesOnly = true, bool square = true, bool ignoreHeight = false, bool includeStartingTile = false, int minReach = 1, bool inStraightLine = false)
-    {
         List<GridTile> range = new List<GridTile>();
 
         // Start is goal
@@ -98,6 +99,14 @@ public static class RangeAlgorithms
                     removeTile = true;
                 }
 
+                // The Spell can target a mountain?
+                if (!canTargetMountain)
+                {
+                    GridObject gridObject = GridManager.Instance.GetGridObjectAtPosition(tile.m_GridPosition);
+                    if (gridObject && gridObject.GetComponent<GridMountainObject>())
+                        removeTile = true;
+                }
+
                 if (removeTile)
                 {
                     range.RemoveAt(i);
@@ -130,8 +139,13 @@ public static class RangeAlgorithms
         return isInStraightLine;
     }
 
-    private static List<GridTile> SearchByMovement(GridTile start, int maxReach, bool ignoreHeight = false, bool includeStartingTile = false, int MinReach = 1, bool canFly = false)
+    public static List<GridTile> SearchByMovement(GridTile start, RangeParameters rangeParameters, bool canFly)
     {
+        int minReach = rangeParameters.MinReach;
+        int maxReach = rangeParameters.MaxReach;
+        bool ignoreHeight = rangeParameters.IgnoreTilesHeight;
+        bool includeStartingTile = rangeParameters.IncludeStartingTile;
+
         List<GridTile> range = new List<GridTile>();
 
         // Start is goal
@@ -140,7 +154,7 @@ public static class RangeAlgorithms
             range.Add(start);
             return range;
         }
-        if (maxReach < MinReach)
+        if (maxReach < minReach)
         {
             return range;
         }
@@ -165,7 +179,7 @@ public static class RangeAlgorithms
                         float priority = new_cost;
                         frontier.Enqueue(next, priority);
 
-                        if (!range.Contains(next) && new_cost >= MinReach && new_cost <= maxReach)
+                        if (!range.Contains(next) && new_cost >= minReach && new_cost <= maxReach)
                         {
                             range.Add(next);
                         }
