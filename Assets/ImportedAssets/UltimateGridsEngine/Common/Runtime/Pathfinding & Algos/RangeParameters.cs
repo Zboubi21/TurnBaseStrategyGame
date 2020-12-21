@@ -39,11 +39,11 @@ public class RangeParameters
     [SerializeField] private bool m_UnOccupiedTilesOnly = true;
     [SerializeField] private bool m_IgnoreTilesHeight = false;
     [SerializeField] private bool m_IncludeStartingTile = false;
+    [SerializeField] private bool m_InStraightLine = false;
 
     // Getters
     public RangeSearchType RangeSearchType => m_RangeSearchType;
     public bool SquareRange => m_SquareRange;
-    public bool SearchTypeIsRectByGridPosition() { return m_RangeSearchType == RangeSearchType.RectangleByGridPosition; }
     public int MinReach => m_MinReach;
     public int MaxReach { get => m_MaxReach; set => m_MaxReach = value; }
     public bool WalkableTiles => m_WalkableTiles;
@@ -51,5 +51,6 @@ public class RangeParameters
     public bool UnOccupiedTilesOnly => m_UnOccupiedTilesOnly;
     public bool IgnoreTilesHeight => m_IgnoreTilesHeight;
     public bool IncludeStartingTile => m_IncludeStartingTile;
+    public bool InStraightLine => m_InStraightLine;
 
 }

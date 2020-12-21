@@ -15,7 +15,6 @@ namespace TBSG.Combat
         [SerializeField] private int m_TurnsBetweenThrowsNbr = 0;
         [SerializeField] private GameObject m_ObjectToSpawn = null;
         [SerializeField] private RangeParameters m_Range = null;
-        //[SerializeField] private bool m_ThrowInStraightLine = false;
         [SerializeField, Range(0, 2)] private int m_NeedState = 0;
 
         // Getters
@@ -28,7 +27,6 @@ namespace TBSG.Combat
         public int TurnsBetweenThrowsNbr => m_TurnsBetweenThrowsNbr;
         public GameObject ObjectToSpawn => m_ObjectToSpawn;
         public RangeParameters Range => m_Range;
-        //public bool ThrowInStraightLine => m_ThrowInStraightLine;
         public int NeedState => m_NeedState;
     }
 }

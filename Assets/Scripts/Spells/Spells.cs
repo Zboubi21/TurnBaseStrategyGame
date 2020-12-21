@@ -17,6 +17,7 @@
         GodsCreation,
         MortalTouch,
         Jump,
+        Headbutt,
 
         // Enemies
         BasicAttackCAC

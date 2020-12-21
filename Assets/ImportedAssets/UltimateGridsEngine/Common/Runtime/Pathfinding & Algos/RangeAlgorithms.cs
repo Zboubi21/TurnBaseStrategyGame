@@ -10,13 +10,13 @@ public static class RangeAlgorithms
         {
             case RangeSearchType.RectangleByGridPosition:
             default:
-                return RangeAlgorithms.SearchByGridPosition(start, rangeParameters.MaxReach, rangeParameters.WalkableTiles, rangeParameters.FlyableTiles, rangeParameters.UnOccupiedTilesOnly, rangeParameters.SquareRange, rangeParameters.IgnoreTilesHeight, rangeParameters.IncludeStartingTile, rangeParameters.MinReach);
+                return RangeAlgorithms.SearchByGridPosition(start, rangeParameters.MaxReach, rangeParameters.WalkableTiles, rangeParameters.FlyableTiles, rangeParameters.UnOccupiedTilesOnly, rangeParameters.SquareRange, rangeParameters.IgnoreTilesHeight, rangeParameters.IncludeStartingTile, rangeParameters.MinReach, rangeParameters.InStraightLine);
             case RangeSearchType.RectangleByMovement:
                 return RangeAlgorithms.SearchByMovement(start, rangeParameters.MaxReach, rangeParameters.IgnoreTilesHeight, rangeParameters.IncludeStartingTile, rangeParameters.MinReach, canFly);
         }
     }
 
-    public static List<GridTile> SearchByGridPosition(GridTile start, int maxReach, bool walkableTiles = true, bool flyableTiles = false, bool unoccupiedTilesOnly = true, bool square = true, bool ignoreHeight = false, bool includeStartingTile = false, int minReach = 1)
+    public static List<GridTile> SearchByGridPosition(GridTile start, int maxReach, bool walkableTiles = true, bool flyableTiles = false, bool unoccupiedTilesOnly = true, bool square = true, bool ignoreHeight = false, bool includeStartingTile = false, int minReach = 1, bool inStraightLine = false)
     {
         List<GridTile> range = new List<GridTile>();
 
@@ -67,6 +67,7 @@ public static class RangeAlgorithms
                 GridTile tile = range[i];
                 bool removeTile = false;
 
+                // Check walkables tiles
                 if ((tile.m_IsTileWalkable && !walkableTiles) || (tile.m_IsTileFlyable && !flyableTiles))
                 {
                     removeTile = true;
@@ -76,6 +77,12 @@ public static class RangeAlgorithms
                     removeTile = true;
                 }
                 else if (!tile.m_IsTileWalkable && !tile.m_IsTileFlyable)
+                {
+                    removeTile = true;
+                }
+
+                // Spell is in straight line?
+                if (inStraightLine && !IsInStraightLine(start, tile))
                 {
                     removeTile = true;
                 }
@@ -100,6 +107,17 @@ public static class RangeAlgorithms
         return range;
     }
 
+    private static bool IsInStraightLine(GridTile startTile, GridTile targetTile)
+    {
+        bool isInStraightLine = false;
+        Vector2 startPos = startTile.m_GridPosition;
+        Vector2 targetPos = targetTile.m_GridPosition;
+
+        if (((startPos.x == targetPos.x) && (startPos.y != targetPos.y)) || ((startPos.x != targetPos.x) && (startPos.y == targetPos.y)))
+            isInStraightLine = true;
+
+        return isInStraightLine;
+    }
 
     public static List<GridTile> SearchByMovement(GridTile start, int maxReach, bool ignoreHeight = false, bool includeStartingTile = false, int MinReach = 1, bool canFly = false)
     {
