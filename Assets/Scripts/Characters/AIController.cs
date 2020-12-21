@@ -57,9 +57,9 @@ namespace TBSG.Combat
                 TriggerEndCharacterTurn();
         }
 
-        private bool CanLaunchSpellOnTarget(SpellParameters spell, GridObject target)
+        private bool CanLaunchSpellOnTarget(Spell spell, GridObject target)
         {
-            m_Character.CalculateAttackRange(spell.Range, false);
+            m_Character.CalculateAttackRange(spell, false);
 
             if (CanLaunchSpell(spell) && CanLaunchSpellOnTile(spell, target.m_CurrentGridTile))
                 return true;
@@ -67,7 +67,7 @@ namespace TBSG.Combat
                 return false;
         }
 
-        private void LaunchSpellOnTarget(SpellParameters spell, GridObject target)
+        private void LaunchSpellOnTarget(Spell spell, GridObject target)
         {
             LaunchSpell(spell, target.m_CurrentGridTile);
             TriggerEndCharacterTurn();

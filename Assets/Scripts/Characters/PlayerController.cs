@@ -45,7 +45,7 @@ namespace TBSG.Combat
             }
         }
 
-        protected override bool IsItInTheRightState(SpellParameters spell)
+        protected override bool IsItInTheRightState(Spell spell)
         {
             return spell.NeedState == (int)PlayerState.None ||
                 (m_InCreationState && spell.NeedState == (int)PlayerState.Creation) || 
@@ -55,21 +55,21 @@ namespace TBSG.Combat
         private void SetCurrentPlayerSpell(SpellsEnum spellEnum)
         {
             if (!m_IsMyTurn) return;
-            SpellParameters spell = SpellManager.Instance.GetSpellWithSpellEnum(spellEnum);
+            Spell spell = SpellManager.Instance.GetSpellWithSpellEnum(spellEnum);
             if (!m_Character.HasEnoughActionPoints(spell)) return;
             m_CurrentSpell = spell;
-            m_Character.CalculateAttackRange(spell.Range, true);
+            m_Character.CalculateAttackRange(spell, true);
             m_InMovementState = false;
         }
 
-        protected override void LaunchSpell(SpellParameters spell, GridTile gridTile)
+        protected override void LaunchSpell(Spell spell, GridTile gridTile)
         {
             base.LaunchSpell(spell, gridTile);
             if (spell.AttackType == AttackType.StateChange)
                 ChangeCharacterState(spell, gridTile);
         }
 
-        private void ChangeCharacterState(SpellParameters spell, GridTile gridTile)
+        private void ChangeCharacterState(Spell spell, GridTile gridTile)
         {
             m_InCreationState =! m_InCreationState;
             OnLaunchedSpell(spell);

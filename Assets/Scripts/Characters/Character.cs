@@ -56,13 +56,13 @@ namespace TBSG.Combat
             if (m_CurrentMouvementPoints <= 0) return;
             RangeParameters rangeParam = new RangeParameters(m_MovementRangeParameters);
             rangeParam.MaxReach = m_CurrentMouvementPoints;
-            m_CurrentMovementRange = RangeAlgorithms.SearchByParameters(m_GridObject.m_CurrentGridTile, rangeParam, m_PathWalker.m_CanFly);
+            m_CurrentMovementRange = RangeAlgorithms.SearchMovement(m_GridObject.m_CurrentGridTile, rangeParam, m_PathWalker.m_CanFly);
             if (andHighlight)
                 HighlightMovementRange(true);
         }
-        public void CalculateAttackRange(RangeParameters attackParam, bool andHighlight = false)
+        public void CalculateAttackRange(Spell spell, bool andHighlight = false)
         {
-            m_CurrentAttackRange = RangeAlgorithms.SearchByParameters(m_GridObject.m_CurrentGridTile, attackParam);
+            m_CurrentAttackRange = RangeAlgorithms.SearchSpell(m_GridObject.m_CurrentGridTile, spell.Range, spell.SpellParameters);
             if (andHighlight)
                 HighlightAttackRange(true);
         }
@@ -87,9 +87,9 @@ namespace TBSG.Combat
         {
             return (m_CurrentMovementRange.Contains(targetTile) && targetTile != m_GridObject.m_CurrentGridTile);
         }
-        public bool HasEnoughActionPoints(SpellParameters spell)
+        public bool HasEnoughActionPoints(Spell spell)
         {
-            return m_CurrentActionPoints >= spell.ActionPoints;
+            return m_CurrentActionPoints >= spell.SpellParameters.ActionPoints;
         }
         public bool CanAttackTile(GridTile targetTile)
         {

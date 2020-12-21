@@ -9,26 +9,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 396e7a378c0597c44800e2e29a080ca9, type: 3}
+  m_Script: {fileID: 11500000, guid: 8e987cc44ba0c154ea089c13bbcf74f3, type: 3}
   m_Name: God'sCreation
   m_EditorClassIdentifier: 
-  m_Spell: 2
+  m_SpellEnum: 2
   m_AttackType: 2
-  m_ActionPoints: 2
-  m_Damages: 1
-  m_ThrowsPerTurnNbr: 3
-  m_TargetingPerOpponentNbr: 0
-  m_TurnsBetweenThrowsNbr: 0
-  m_ObjectToSpawn: {fileID: 3063526555832202331, guid: 7a83e2ada53857a4296fafa166ee4d52,
-    type: 3}
+  m_NeedState: 1
+  m_SpellParameters:
+    m_ActionPoints: 2
+    m_Damages: 1
+    m_ThrowsPerTurnNbr: 3
+    m_TargetingPerOpponentNbr: 0
+    m_TurnsBetweenThrowsNbr: 0
+    m_ObjectToSpawn: {fileID: 3063526555832202331, guid: 7a83e2ada53857a4296fafa166ee4d52,
+      type: 3}
+    m_InStraightLine: 0
+    m_WalkableTiles: 1
+    m_FlyableTiles: 0
   m_Range:
     m_RangeSearchType: 0
     m_SquareRange: 0
     m_MinReach: 2
     m_MaxReach: 3
-    m_WalkableTiles: 1
-    m_FlyableTiles: 0
     m_UnOccupiedTilesOnly: 0
     m_IgnoreTilesHeight: 0
     m_IncludeStartingTile: 0
-  m_NeedState: 1

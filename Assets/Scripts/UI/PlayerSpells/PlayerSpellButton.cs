@@ -37,20 +37,20 @@ namespace TBSG.UI
 
         public void UpdateUI()
         {
-            SpellParameters spell = SpellManager.Instance.GetSpellWithSpellEnum(m_Spell);
+            Spell spell = SpellManager.Instance.GetSpellWithSpellEnum(m_Spell);
             m_Button.interactable = IsSpellAvailable(spell);
             UpdateCooldownSpells(spell);
             UpdateThrowPerTurnSpells(spell);
         }
 
-        private bool IsSpellAvailable(SpellParameters spell)
+        private bool IsSpellAvailable(Spell spell)
         {
             return CombatManager.Instance.PlayerController.CanLaunchSpell(spell);
         }
 
-        private void UpdateCooldownSpells(SpellParameters spell)
+        private void UpdateCooldownSpells(Spell spell)
         {
-            Dictionary<SpellParameters, int> cooldownDict = CombatManager.Instance.PlayerController.TurnsBetweenThrowsSpells;
+            Dictionary<Spell, int> cooldownDict = CombatManager.Instance.PlayerController.TurnsBetweenThrowsSpells;
             if (cooldownDict.ContainsKey(spell) && cooldownDict[spell] != 0)
             {
                 m_CooldownTxt.text = cooldownDict[spell].ToString();
@@ -60,12 +60,12 @@ namespace TBSG.UI
                 ActivateGO(m_CooldownObject, false);
         }
 
-        private void UpdateThrowPerTurnSpells(SpellParameters spell)
+        private void UpdateThrowPerTurnSpells(Spell spell)
         {
-            Dictionary<SpellParameters, int> throwedSpellDict = CombatManager.Instance.PlayerController.ThrowedPerTurnSpells;
+            Dictionary<Spell, int> throwedSpellDict = CombatManager.Instance.PlayerController.ThrowedPerTurnSpells;
             if (throwedSpellDict.ContainsKey(spell))
             {
-                m_ThrowPerTurnTxt.text = (spell.ThrowsPerTurnNbr - throwedSpellDict[spell]).ToString();
+                m_ThrowPerTurnTxt.text = (spell.SpellParameters.ThrowsPerTurnNbr - throwedSpellDict[spell]).ToString();
                 ActivateGO(m_ThrowPerTurnObject, true);
             }
             else

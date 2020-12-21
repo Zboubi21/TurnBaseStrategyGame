@@ -6,17 +6,28 @@ public static class RangeAlgorithms
 {
     public static List<GridTile> SearchByParameters(GridTile start, RangeParameters rangeParameters, bool canFly = false)
     {
-        switch (rangeParameters.RangeSearchType)
-        {
-            case RangeSearchType.RectangleByGridPosition:
-            default:
-                return RangeAlgorithms.SearchByGridPosition(start, rangeParameters.MaxReach, rangeParameters.WalkableTiles, rangeParameters.FlyableTiles, rangeParameters.UnOccupiedTilesOnly, rangeParameters.SquareRange, rangeParameters.IgnoreTilesHeight, rangeParameters.IncludeStartingTile, rangeParameters.MinReach, rangeParameters.InStraightLine);
-            case RangeSearchType.RectangleByMovement:
-                return RangeAlgorithms.SearchByMovement(start, rangeParameters.MaxReach, rangeParameters.IgnoreTilesHeight, rangeParameters.IncludeStartingTile, rangeParameters.MinReach, canFly);
-        }
+        //switch (rangeParameters.RangeSearchType)
+        //{
+        //    case RangeSearchType.RectangleByGridPosition:
+        //    default:
+        //        return RangeAlgorithms.SearchByGridPosition(start, rangeParameters.MaxReach, rangeParameters.WalkableTiles, rangeParameters.FlyableTiles, rangeParameters.UnOccupiedTilesOnly, rangeParameters.SquareRange, rangeParameters.IgnoreTilesHeight, rangeParameters.IncludeStartingTile, rangeParameters.MinReach, rangeParameters.InStraightLine);
+        //    case RangeSearchType.RectangleByMovement:
+        //        return RangeAlgorithms.SearchByMovement(start, rangeParameters.MaxReach, rangeParameters.IgnoreTilesHeight, rangeParameters.IncludeStartingTile, rangeParameters.MinReach, canFly);
+        //}
+        return null;
     }
 
-    public static List<GridTile> SearchByGridPosition(GridTile start, int maxReach, bool walkableTiles = true, bool flyableTiles = false, bool unoccupiedTilesOnly = true, bool square = true, bool ignoreHeight = false, bool includeStartingTile = false, int minReach = 1, bool inStraightLine = false)
+    public static List<GridTile> SearchSpell(GridTile start, RangeParameters rangeParameters, SpellParameters spellParameters)
+    {
+        return RangeAlgorithms.SearchByGridPosition(start, rangeParameters.MaxReach, spellParameters.WalkableTiles, spellParameters.FlyableTiles, rangeParameters.UnOccupiedTilesOnly, rangeParameters.SquareRange, rangeParameters.IgnoreTilesHeight, rangeParameters.IncludeStartingTile, rangeParameters.MinReach, spellParameters.InStraightLine);
+    }
+
+    public static List<GridTile> SearchMovement(GridTile start, RangeParameters rangeParameters, bool canFly)
+    {
+        return RangeAlgorithms.SearchByMovement(start, rangeParameters.MaxReach, rangeParameters.IgnoreTilesHeight, rangeParameters.IncludeStartingTile, rangeParameters.MinReach, canFly);
+    }
+
+    private static List<GridTile> SearchByGridPosition(GridTile start, int maxReach, bool walkableTiles = true, bool flyableTiles = false, bool unoccupiedTilesOnly = true, bool square = true, bool ignoreHeight = false, bool includeStartingTile = false, int minReach = 1, bool inStraightLine = false)
     {
         List<GridTile> range = new List<GridTile>();
 
@@ -119,7 +130,7 @@ public static class RangeAlgorithms
         return isInStraightLine;
     }
 
-    public static List<GridTile> SearchByMovement(GridTile start, int maxReach, bool ignoreHeight = false, bool includeStartingTile = false, int MinReach = 1, bool canFly = false)
+    private static List<GridTile> SearchByMovement(GridTile start, int maxReach, bool ignoreHeight = false, bool includeStartingTile = false, int MinReach = 1, bool canFly = false)
     {
         List<GridTile> range = new List<GridTile>();
 

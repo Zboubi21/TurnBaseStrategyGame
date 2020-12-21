@@ -9,26 +9,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 396e7a378c0597c44800e2e29a080ca9, type: 3}
+  m_Script: {fileID: 11500000, guid: 8e987cc44ba0c154ea089c13bbcf74f3, type: 3}
   m_Name: Headbutt
   m_EditorClassIdentifier: 
-  m_Spell: 5
+  m_SpellEnum: 5
   m_AttackType: 1
-  m_ActionPoints: 1
-  m_Damages: 1
-  m_ThrowsPerTurnNbr: 2
-  m_TargetingPerOpponentNbr: 0
-  m_TurnsBetweenThrowsNbr: 0
-  m_ObjectToSpawn: {fileID: 0}
+  m_NeedState: 2
+  m_SpellParameters:
+    m_ActionPoints: 1
+    m_Damages: 1
+    m_ThrowsPerTurnNbr: 2
+    m_TargetingPerOpponentNbr: 0
+    m_TurnsBetweenThrowsNbr: 0
+    m_ObjectToSpawn: {fileID: 0}
+    m_InStraightLine: 1
+    m_WalkableTiles: 1
+    m_FlyableTiles: 0
   m_Range:
     m_RangeSearchType: 0
     m_SquareRange: 0
     m_MinReach: 1
     m_MaxReach: 3
-    m_WalkableTiles: 1
-    m_FlyableTiles: 0
     m_UnOccupiedTilesOnly: 0
     m_IgnoreTilesHeight: 0
     m_IncludeStartingTile: 0
-    m_InStraightLine: 1
-  m_NeedState: 2
