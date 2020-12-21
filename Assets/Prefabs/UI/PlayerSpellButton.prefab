@@ -286,8 +286,8 @@ MonoBehaviour:
   m_Button: {fileID: 3840640588889889353}
   m_CooldownObject: {fileID: 3803641961583239946}
   m_CooldownTxt: {fileID: 5287503680933601223}
-  m_PossibleUseObject: {fileID: 6712040979448683032}
-  m_PossibleUseTxt: {fileID: 6941901838019551497}
+  m_ThrowPerTurnObject: {fileID: 6712040979448683032}
+  m_ThrowPerTurnTxt: {fileID: 6941901838019551497}
 --- !u!1 &3840640588889889355
 GameObject:
   m_ObjectHideFlags: 0

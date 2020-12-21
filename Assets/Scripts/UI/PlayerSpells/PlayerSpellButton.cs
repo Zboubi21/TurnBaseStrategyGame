@@ -14,8 +14,8 @@ namespace TBSG.UI
         [SerializeField] private GameObject m_CooldownObject = null;
         [SerializeField] private TextMeshProUGUI m_CooldownTxt = null;
         [Header("Possible Use")]
-        [SerializeField] private GameObject m_PossibleUseObject = null;
-        [SerializeField] private TextMeshProUGUI m_PossibleUseTxt = null;
+        [SerializeField] private GameObject m_ThrowPerTurnObject = null;
+        [SerializeField] private TextMeshProUGUI m_ThrowPerTurnTxt = null;
 
         private CharacterCanvas m_CharacterCanvas;
 
@@ -40,6 +40,7 @@ namespace TBSG.UI
             SpellParameters spell = SpellManager.Instance.GetSpellWithSpellEnum(m_Spell);
             m_Button.interactable = IsSpellAvailable(spell);
             UpdateCooldownSpells(spell);
+            UpdateThrowPerTurnSpells(spell);
         }
 
         private bool IsSpellAvailable(SpellParameters spell)
@@ -52,15 +53,29 @@ namespace TBSG.UI
             Dictionary<SpellParameters, int> cooldownDict = CombatManager.Instance.PlayerController.TurnsBetweenThrowsSpells;
             if (cooldownDict.ContainsKey(spell) && cooldownDict[spell] != 0)
             {
-                if (!m_CooldownObject.activeSelf)
-                    m_CooldownObject.SetActive(true);
                 m_CooldownTxt.text = cooldownDict[spell].ToString();
+                ActivateGO(m_CooldownObject, true);
             }
             else
+                ActivateGO(m_CooldownObject, false);
+        }
+
+        private void UpdateThrowPerTurnSpells(SpellParameters spell)
+        {
+            Dictionary<SpellParameters, int> throwedSpellDict = CombatManager.Instance.PlayerController.ThrowedPerTurnSpells;
+            if (throwedSpellDict.ContainsKey(spell))
             {
-                if (m_CooldownObject.activeSelf)
-                    m_CooldownObject.SetActive(false);
+                m_ThrowPerTurnTxt.text = (spell.m_ThrowsPerTurnNbr - throwedSpellDict[spell]).ToString();
+                ActivateGO(m_ThrowPerTurnObject, true);
             }
+            else
+                ActivateGO(m_ThrowPerTurnObject, false);
+        }
+
+        private void ActivateGO(GameObject go, bool activate)
+        {
+            if (go.activeSelf != activate)
+                go.SetActive(activate);
         }
 
         private void OnDestroy()
