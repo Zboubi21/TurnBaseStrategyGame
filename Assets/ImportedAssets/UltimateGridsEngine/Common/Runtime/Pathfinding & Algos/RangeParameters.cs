@@ -8,6 +8,7 @@ public enum RangeSearchType { RectangleByGridPosition, RectangleByMovement }
 [Serializable]
 public class RangeParameters
 {
+    // Constructor
     public RangeParameters(RangeParameters param)
     {
         m_RangeSearchType = param.m_RangeSearchType;
@@ -21,20 +22,34 @@ public class RangeParameters
         m_IncludeStartingTile = param.m_IncludeStartingTile;
     }
 
+    // Variables
     [Header("Type")]
-    public RangeSearchType m_RangeSearchType = RangeSearchType.RectangleByGridPosition;
+    [SerializeField] private RangeSearchType m_RangeSearchType = RangeSearchType.RectangleByGridPosition;
+
     [ShowIf("SearchTypeIsRectByGridPosition")]
-    public bool m_SquareRange = false;
-    public bool SearchTypeIsRectByGridPosition() { return m_RangeSearchType == RangeSearchType.RectangleByGridPosition; }
+    [SerializeField] private bool m_SquareRange = false;
 
     [Header("Reach")]
-    public int m_MinReach = 0;
-    public int m_MaxReach = 3;
+    [SerializeField] private int m_MinReach = 0;
+    [SerializeField] private int m_MaxReach = 3;
 
     [Header("Tile Settings")]
-    public bool m_WalkableTiles = true;
-    public bool m_FlyableTiles = false;
-    public bool m_UnOccupiedTilesOnly = true;
-    public bool m_IgnoreTilesHeight = false;
-    public bool m_IncludeStartingTile = false;
+    [SerializeField] private bool m_WalkableTiles = true;
+    [SerializeField] private bool m_FlyableTiles = false;
+    [SerializeField] private bool m_UnOccupiedTilesOnly = true;
+    [SerializeField] private bool m_IgnoreTilesHeight = false;
+    [SerializeField] private bool m_IncludeStartingTile = false;
+
+    // Getters
+    public RangeSearchType RangeSearchType => m_RangeSearchType;
+    public bool SquareRange => m_SquareRange;
+    public bool SearchTypeIsRectByGridPosition() { return m_RangeSearchType == RangeSearchType.RectangleByGridPosition; }
+    public int MinReach => m_MinReach;
+    public int MaxReach { get => m_MaxReach; set => m_MaxReach = value; }
+    public bool WalkableTiles => m_WalkableTiles;
+    public bool FlyableTiles => m_FlyableTiles;
+    public bool UnOccupiedTilesOnly => m_UnOccupiedTilesOnly;
+    public bool IgnoreTilesHeight => m_IgnoreTilesHeight;
+    public bool IncludeStartingTile => m_IncludeStartingTile;
+
 }

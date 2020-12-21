@@ -47,7 +47,7 @@ namespace TBSG.Combat
         {
             m_CurrentActionPoints = m_StartActionPoints;
             OnActionPointsChanged?.Invoke();
-            m_CurrentMouvementPoints = m_MovementRangeParameters.m_MaxReach;
+            m_CurrentMouvementPoints = m_MovementRangeParameters.MaxReach;
             OnMovementPointsChanged?.Invoke();
         }
 
@@ -55,7 +55,7 @@ namespace TBSG.Combat
         {
             if (m_CurrentMouvementPoints <= 0) return;
             RangeParameters rangeParam = new RangeParameters(m_MovementRangeParameters);
-            rangeParam.m_MaxReach = m_CurrentMouvementPoints;
+            rangeParam.MaxReach = m_CurrentMouvementPoints;
             m_CurrentMovementRange = RangeAlgorithms.SearchByParameters(m_GridObject.m_CurrentGridTile, rangeParam, m_PathWalker.m_CanFly);
             if (andHighlight)
                 HighlightMovementRange(true);
@@ -89,7 +89,7 @@ namespace TBSG.Combat
         }
         public bool HasEnoughActionPoints(SpellParameters spell)
         {
-            return m_CurrentActionPoints >= spell.m_ActionPoints;
+            return m_CurrentActionPoints >= spell.ActionPoints;
         }
         public bool CanAttackTile(GridTile targetTile)
         {

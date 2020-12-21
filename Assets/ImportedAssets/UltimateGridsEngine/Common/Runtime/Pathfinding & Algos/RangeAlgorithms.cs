@@ -6,13 +6,13 @@ public static class RangeAlgorithms
 {
     public static List<GridTile> SearchByParameters(GridTile start, RangeParameters rangeParameters, bool canFly = false)
     {
-        switch (rangeParameters.m_RangeSearchType)
+        switch (rangeParameters.RangeSearchType)
         {
             case RangeSearchType.RectangleByGridPosition:
             default:
-                return RangeAlgorithms.SearchByGridPosition(start, rangeParameters.m_MaxReach, rangeParameters.m_WalkableTiles, rangeParameters.m_FlyableTiles, rangeParameters.m_UnOccupiedTilesOnly, rangeParameters.m_SquareRange, rangeParameters.m_IgnoreTilesHeight, rangeParameters.m_IncludeStartingTile, rangeParameters.m_MinReach);
+                return RangeAlgorithms.SearchByGridPosition(start, rangeParameters.MaxReach, rangeParameters.WalkableTiles, rangeParameters.FlyableTiles, rangeParameters.UnOccupiedTilesOnly, rangeParameters.SquareRange, rangeParameters.IgnoreTilesHeight, rangeParameters.IncludeStartingTile, rangeParameters.MinReach);
             case RangeSearchType.RectangleByMovement:
-                return RangeAlgorithms.SearchByMovement(start, rangeParameters.m_MaxReach, rangeParameters.m_IgnoreTilesHeight, rangeParameters.m_IncludeStartingTile, rangeParameters.m_MinReach, canFly);
+                return RangeAlgorithms.SearchByMovement(start, rangeParameters.MaxReach, rangeParameters.IgnoreTilesHeight, rangeParameters.IncludeStartingTile, rangeParameters.MinReach, canFly);
         }
     }
 

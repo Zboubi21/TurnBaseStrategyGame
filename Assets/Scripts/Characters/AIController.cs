@@ -59,7 +59,7 @@ namespace TBSG.Combat
 
         private bool CanLaunchSpellOnTarget(SpellParameters spell, GridObject target)
         {
-            m_Character.CalculateAttackRange(spell.m_Range, false);
+            m_Character.CalculateAttackRange(spell.Range, false);
 
             if (CanLaunchSpell(spell) && CanLaunchSpellOnTile(spell, target.m_CurrentGridTile))
                 return true;

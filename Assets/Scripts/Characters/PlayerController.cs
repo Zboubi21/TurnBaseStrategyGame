@@ -47,9 +47,9 @@ namespace TBSG.Combat
 
         protected override bool IsItInTheRightState(SpellParameters spell)
         {
-            return spell.m_NeedState == (int)PlayerState.None ||
-                (m_InCreationState && spell.m_NeedState == (int)PlayerState.Creation) || 
-                (!m_InCreationState && spell.m_NeedState == (int)PlayerState.Destruction);
+            return spell.NeedState == (int)PlayerState.None ||
+                (m_InCreationState && spell.NeedState == (int)PlayerState.Creation) || 
+                (!m_InCreationState && spell.NeedState == (int)PlayerState.Destruction);
         }
 
         private void SetCurrentPlayerSpell(SpellsEnum spellEnum)
@@ -58,14 +58,14 @@ namespace TBSG.Combat
             SpellParameters spell = SpellManager.Instance.GetSpellWithSpellEnum(spellEnum);
             if (!m_Character.HasEnoughActionPoints(spell)) return;
             m_CurrentSpell = spell;
-            m_Character.CalculateAttackRange(spell.m_Range, true);
+            m_Character.CalculateAttackRange(spell.Range, true);
             m_InMovementState = false;
         }
 
         protected override void LaunchSpell(SpellParameters spell, GridTile gridTile)
         {
             base.LaunchSpell(spell, gridTile);
-            if (spell.m_AttackType == AttackType.StateChange)
+            if (spell.AttackType == AttackType.StateChange)
                 ChangeCharacterState(spell, gridTile);
         }
 

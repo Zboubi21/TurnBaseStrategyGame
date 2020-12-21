@@ -79,7 +79,7 @@ namespace TBSG.Combat
 
         private bool CanThrowedPerTurnSpell(SpellParameters spell)
         {
-            if (spell.m_ThrowsPerTurnNbr == 0) return true;
+            if (spell.ThrowsPerTurnNbr == 0) return true;
 
             if (!m_ThrowedPerTurnSpells.ContainsKey(spell))
             {
@@ -89,7 +89,7 @@ namespace TBSG.Combat
             else
             {
                 foreach (KeyValuePair<SpellParameters, int> item in m_ThrowedPerTurnSpells)
-                    if (item.Key == spell && item.Value < item.Key.m_ThrowsPerTurnNbr)
+                    if (item.Key == spell && item.Value < item.Key.ThrowsPerTurnNbr)
                         return true;
             }
             return false;
@@ -97,7 +97,7 @@ namespace TBSG.Combat
 
         private bool CanTargetingOpponentWithSpell(SpellParameters spell, Entity entity)
         {
-            if (spell.m_TargetingPerOpponentNbr == 0) return true;
+            if (spell.TargetingPerOpponentNbr == 0) return true;
 
             if (!m_TargetingPerOpponentSpells.ContainsKey(spell))
             {
@@ -107,7 +107,7 @@ namespace TBSG.Combat
             else
             {
                 foreach (KeyValuePair<SpellParameters, List<Entity>> item in m_TargetingPerOpponentSpells)
-                    if (item.Key == spell && GetTargetNbrs(item.Value, entity) < item.Key.m_TargetingPerOpponentNbr)
+                    if (item.Key == spell && GetTargetNbrs(item.Value, entity) < item.Key.TargetingPerOpponentNbr)
                         return true;
             }
             return false;
@@ -115,7 +115,7 @@ namespace TBSG.Combat
 
         private bool CanThrowedTurnsBetweenThrowsSpell(SpellParameters spell)
         {
-            if (spell.m_TurnsBetweenThrowsNbr == 0) return true;
+            if (spell.TurnsBetweenThrowsNbr == 0) return true;
 
             if (!m_TurnsBetweenThrowsSpells.ContainsKey(spell))
             {
@@ -143,14 +143,14 @@ namespace TBSG.Combat
 
         protected virtual void LaunchSpell(SpellParameters spell, GridTile gridTile)
         {
-            switch (spell.m_AttackType)
+            switch (spell.AttackType)
             {
                 case AttackType.Damage:
                     LaunchAttack(spell, gridTile);
                 break;
 
                 case AttackType.Invocation:
-                    SpawnObjectOnTile(spell, spell.m_ObjectToSpawn, gridTile);
+                    SpawnObjectOnTile(spell, spell.ObjectToSpawn, gridTile);
                 break;
 
                 case AttackType.StateChange:
@@ -187,7 +187,7 @@ namespace TBSG.Combat
         private void AddTurnsBetweenThrowsSpell(SpellParameters spell)
         {
             if (m_TurnsBetweenThrowsSpells.ContainsKey(spell))
-                m_TurnsBetweenThrowsSpells[spell] = spell.m_TurnsBetweenThrowsNbr + 1;
+                m_TurnsBetweenThrowsSpells[spell] = spell.TurnsBetweenThrowsNbr + 1;
         }
         private void ResetTurnsBetweenThrowsSpell()
         {
@@ -201,7 +201,7 @@ namespace TBSG.Combat
             GridObject gridObject = GridManager.Instance.GetGridObjectAtPosition(gridTile.m_GridPosition);
             if (gridObject && gridObject.TryGetComponent(out Entity entity))
             {
-                entity.TakeDamage(spell.m_Damages);
+                entity.TakeDamage(spell.Damages);
                 AddTargetOpponentSpells(spell, entity);
             }
             OnLaunchedSpell(spell);
@@ -237,7 +237,7 @@ namespace TBSG.Combat
         }
         protected void OnLaunchedSpell(SpellParameters spell)
         {
-            m_Character.SpendActionPoints(spell.m_ActionPoints);
+            m_Character.SpendActionPoints(spell.ActionPoints);
 
             OnResetSpell();
 

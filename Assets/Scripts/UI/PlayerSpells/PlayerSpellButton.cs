@@ -65,7 +65,7 @@ namespace TBSG.UI
             Dictionary<SpellParameters, int> throwedSpellDict = CombatManager.Instance.PlayerController.ThrowedPerTurnSpells;
             if (throwedSpellDict.ContainsKey(spell))
             {
-                m_ThrowPerTurnTxt.text = (spell.m_ThrowsPerTurnNbr - throwedSpellDict[spell]).ToString();
+                m_ThrowPerTurnTxt.text = (spell.ThrowsPerTurnNbr - throwedSpellDict[spell]).ToString();
                 ActivateGO(m_ThrowPerTurnObject, true);
             }
             else
