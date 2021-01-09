@@ -206,23 +206,26 @@ namespace TBSG.Combat
             }
             OnLaunchedSpell(spell);
         }
-        private void SpawnObjectOnTile(Spell spell, GameObject obj, GridTile gridTile)
+        private void SpawnObjectOnTile(Spell spell, GridObject gridObj, GridTile gridTile)
         {
             if (!gridTile.m_IsTileFlyable)
             {
                 GridObject targetPosGridObject = GridManager.Instance.GetGridObjectAtPosition(gridTile.m_GridPosition);
+
+                GridObject instantiatedGridObject = null;
+
                 if (!targetPosGridObject)
                 {
-                    GridObject gridObject = obj.GetComponent<GridObject>();
-                    GridManager.Instance.InstantiateGridObject(gridObject, gridTile.m_GridPosition);
+                    instantiatedGridObject = GridManager.Instance.InstantiateGridObject(gridObj, gridTile.m_GridPosition);
                 }
                 else
                 {
-                    GridObject instantiatedGridObject = Instantiate(obj, targetPosGridObject.transform.position, Quaternion.identity).GetComponent<GridObject>();
+                    instantiatedGridObject = Instantiate(gridObj, targetPosGridObject.transform.position, Quaternion.identity).GetComponent<GridObject>();
                     Entity targetEntity = CombatManager.Instance.GetEntityOnGridTile(gridTile);
                     if (targetEntity)
                         AddTargetOpponentSpells(spell, targetEntity);
                 }
+                instantiatedGridObject.GetComponent<Entity>().OnEntityInvoked(spell);
                 OnLaunchedSpell(spell);
             }
         }

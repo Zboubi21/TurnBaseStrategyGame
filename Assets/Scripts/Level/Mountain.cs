@@ -8,9 +8,6 @@ namespace TBSG.Combat
         [Header("References")]
         [SerializeField] private Transform m_Model = null;
 
-        [Header("Parameters")]
-        [SerializeField] private int m_ImpactDamage = 1; // Be able to manage this variable directly in SpellParameters
-
         [Header("Animations")]
         [SerializeField] private float m_StartYPos = 10;
         [SerializeField] private float m_TimeToAnimate = 0.5f;
@@ -29,7 +26,7 @@ namespace TBSG.Combat
             if (entity != null)
             {
                 if (entity == this) return;
-                entity.TakeDamage(m_ImpactDamage);
+                entity.TakeDamage(m_InvokedSpell.SpellParameters.Damages);
                 Destroy(gameObject);
             }
         }

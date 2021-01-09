@@ -21,11 +21,12 @@ MonoBehaviour:
     m_ThrowsPerTurnNbr: 3
     m_TargetingPerOpponentNbr: 0
     m_TurnsBetweenThrowsNbr: 0
-    m_ObjectToSpawn: {fileID: 3063526555832202331, guid: 7a83e2ada53857a4296fafa166ee4d52,
+    m_ObjectToSpawn: {fileID: 2943642423908835050, guid: 7a83e2ada53857a4296fafa166ee4d52,
       type: 3}
-    m_InStraightLine: 0
     m_WalkableTiles: 1
     m_FlyableTiles: 0
+    m_InStraightLine: 0
+    m_CanTargetMountain: 0
   m_Range:
     m_RangeSearchType: 0
     m_SquareRange: 0

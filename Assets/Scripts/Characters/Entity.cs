@@ -14,10 +14,17 @@ namespace TBSG.Combat
         [NaughtyAttributes.ReadOnly, SerializeField] private int m_CurrentLifePoints;
         public int CurrentLifePoints => m_CurrentLifePoints;
 
+        [NaughtyAttributes.ReadOnly, SerializeField] protected Spell m_InvokedSpell = null;
+
         protected virtual void Start()
         {
             m_CurrentLifePoints = m_StartLifePoints;
             OnLifePointsChanged?.Invoke();
+        }
+
+        public void OnEntityInvoked(Spell invokedSpell)
+        {
+            m_InvokedSpell = invokedSpell;
         }
 
         public void TakeDamage(int damage)
