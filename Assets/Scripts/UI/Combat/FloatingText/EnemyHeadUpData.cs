@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using TMPro;
+using TBSG.Combat;
 
-namespace TBSG.Combat
+namespace TBSG.UI
 {
     public class EnemyHeadUpData : MonoBehaviour
     {

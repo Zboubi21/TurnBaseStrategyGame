@@ -6,6 +6,13 @@ using GameDevStack.Programming;
 
 namespace TBSG.Combat
 {
+    public enum DamageLevel
+    {
+        Low,
+        Medium,
+        High
+    }
+
     public class CombatManager : SingletonMonoBehaviour<CombatManager>
     {
         public static event Action OnCombatStart;
@@ -20,6 +27,10 @@ namespace TBSG.Combat
 
         [Header("Characters")]
         [SerializeField] private List<CharacterController> m_Characters = new List<CharacterController>();
+
+        [Header("Feedback")]
+        [SerializeField] private int m_MidDamageValue = 4;
+        [SerializeField] private int m_HighDamageValue = 6;
 
         public CharacterController PlayerController => m_PlayerController;
 
@@ -150,6 +161,16 @@ namespace TBSG.Combat
                 return entity;
             return null;
         }
-#endregion
+
+        public DamageLevel GetDamageLevel(int damage)
+        {
+            if (damage < m_MidDamageValue)
+                return DamageLevel.Low;
+            else if (damage < m_HighDamageValue)
+                return DamageLevel.Medium;
+            else
+                return DamageLevel.High;
+        }
+        #endregion
     }
 }

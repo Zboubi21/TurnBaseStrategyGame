@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using TBSG.UI;
 
 namespace TBSG.Combat
 {
@@ -22,6 +23,7 @@ namespace TBSG.Combat
         public void TakeDamage(int damage)
         {
             m_CurrentLifePoints -= damage;
+            UIPopupManager.Instance.AddDamagedPopup(transform.position, damage, new Vector3(0, 1.5f, 0));
             OnLifePointsChanged?.Invoke();
             if (m_CurrentLifePoints <= 0)
                 OnDie();
